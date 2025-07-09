@@ -45,8 +45,7 @@ export function ProductCatalog({ productos, inventario }) {
                 <div className='relative w-32 h-32 mb-4'>
                   <Image
                     src={
-                      product.imagen_general ||
-                      '/placeholder.svg'
+                      product.imagen || '/placeholder.svg'
                     }
                     alt={product.nombre}
                     layout='fill'

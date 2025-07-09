@@ -9,7 +9,6 @@ import { useStore } from '@/lib/store'
 
 export function CitySelector() {
   const { selectedCity, setSelectedCity } = useStore()
-  console.log('Selected city:', selectedCity)
 
   return (
     <div className='space-y-6'>
