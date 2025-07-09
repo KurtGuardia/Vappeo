@@ -13,10 +13,17 @@ import { useStore } from '@/lib/store'
 import Image from 'next/image'
 
 export default function CheckoutPage() {
-  const { cart, total, selectedCity, deliveryOption } =
-    useStore()
+  const {
+    cart,
+    total,
+    subtotal,
+    discount,
+    selectedCity,
+    deliveryOption,
+    pickupPointId,
+    deliveryDetails,
+  } = useStore()
   const [acceptTerms, setAcceptTerms] = useState(false)
-
   const [qrSrc, setQrSrc] = useState(`/qrs/qr-${total}.png`)
   const [isFallbackQr, setIsFallbackQr] = useState(false)
 
@@ -25,18 +32,60 @@ export default function CheckoutPage() {
     setIsFallbackQr(false)
   }, [total])
 
+  // Get the full pickup point object from mock data
+  const { puntos } = require('@/lib/mock-data').MOCK_DATA
+  const selectedPickupPoint = puntos.find(
+    (p) => p.id === pickupPointId,
+  )
+
+  // ... your existing QR logic is fine ...
+
   const generateWhatsAppMessage = () => {
-    const items = cart
+    const header = `*Pedido Vappeo*\n*Ciudad:* _${selectedCity}_\n`
+
+    let deliveryInfo = ''
+    if (deliveryOption === 'pickup') {
+      deliveryInfo = `*Método:* _Recoger en tienda_\n*Punto:* _${
+        selectedPickupPoint?.nombre || 'No seleccionado'
+      } - ${selectedPickupPoint?.direccion || ''}_\n`
+    } else if (deliveryOption === 'delivery') {
+      deliveryInfo = `*Método:* _Entrega a domicilio_\n*Cliente:* _${deliveryDetails.name}_\n*Tel:* _${deliveryDetails.phone}_\n*Dirección:* _${deliveryDetails.address}_\n*Obs:* _${deliveryDetails.observations}_\n`
+    } else {
+      // 'interior'
+      deliveryInfo = `*Método:* _Envío al interior_\n*Cliente:* _${
+        deliveryDetails.name
+      }_\n*Tel:* _${
+        deliveryDetails.phone
+      }_\n*Ciudad Destino:* _${
+        deliveryDetails.city
+      }_\n*Dirección:* _${deliveryDetails.address}_\n${
+        deliveryDetails.urgent ? '*ENVÍO URGENTE*' : ''
+      }\n`
+    }
+
+    const productLines = cart
       .map(
         (item) =>
-          `${item.name} - ${item.flavors
-            .map((f) => `${f.name} (${f.quantity})`)
-            .join(', ')}`,
+          `• ${item.name} → ${item.flavors
+            .map((f) => `${f.name} × ${f.quantity}`)
+            .join(', ')} (${item.flavors.reduce(
+            (sum, f) => sum + f.quantity,
+            0,
+          )} u)`,
       )
       .join('\n')
 
+    const totals = `\n*Subtotal:* _${subtotal} Bs_\n*Cupón:* _-${discount} Bs_\n*Total a pagar:* _${total} Bs_`
+    const footer = `\n*~Adjunto comprobante del QR de ${total} Bs ✅~*`
+
     return encodeURIComponent(
-      `¡Hola! Quiero confirmar mi pedido:\n\n${items}\n\nCiudad: ${selectedCity}\nEntrega: ${deliveryOption}\nTotal: Bs. ${total}\n\n¡Gracias!`,
+      header +
+        deliveryInfo +
+        '\n*Productos:*\n' +
+        productLines +
+        '\n' +
+        totals +
+        footer,
     )
   }
 
