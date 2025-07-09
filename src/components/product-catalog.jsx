@@ -10,8 +10,7 @@ export function ProductCatalog({ productos, inventario }) {
   const { selectedCity } = useStore()
   const [selectedProduct, setSelectedProduct] =
     useState(null)
-  console.log(inventario, productos, selectedCity)
-  // Filter products that have at least one flavor available in the selected city
+
   const availableProducts = productos.filter((p) =>
     inventario.some(
       (inv) =>
