@@ -12,6 +12,15 @@ export const useStore = create()(
       subtotal: 0,
       discount: 0,
       total: 0,
+      pickupPointId: null, // e.g., 'cbba-norte'
+      deliveryDetails: {
+        name: '',
+        phone: '',
+        address: '',
+        observations: '',
+        city: '', // For 'interior'
+        urgent: false,
+      },
 
       setSelectedCity: (city) => {
         const confirmed = confirm(
@@ -21,6 +30,7 @@ export const useStore = create()(
           set({
             selectedCity: city.toLowerCase(),
             cart: [],
+            coupon: null,
           })
           get().calculateTotals()
         }
@@ -80,35 +90,43 @@ export const useStore = create()(
       setDeliveryOption: (option) =>
         set({ deliveryOption: option }),
 
+      setPickupPoint: (pointId) =>
+        set({ pickupPointId: pointId }),
+
+      setDeliveryDetails: (details) => {
+        set((state) => ({
+          deliveryDetails: {
+            ...state.deliveryDetails,
+            ...details,
+          },
+        }))
+      },
+
       applyCoupon: (coupon) => {
         set({ coupon })
         get().calculateTotals()
       },
 
       calculateTotals: () => {
-        const state = get()
-        const subtotal = state.cart.reduce(
+        const { cart, coupon } = get()
+        const subtotal = cart.reduce(
           (sum, item) =>
             sum +
             item.price *
               item.flavors.reduce(
-                (flavorSum, flavor) =>
-                  flavorSum + flavor.quantity,
+                (flavorSum, f) => flavorSum + f.quantity,
                 0,
               ),
           0,
         )
-
         let discount = 0
-        if (state.coupon) {
+        if (coupon) {
           discount =
-            state.coupon.type === 'percentage'
-              ? subtotal * (state.coupon.discount / 100)
-              : state.coupon.discount
+            coupon.type === 'percentage'
+              ? subtotal * (coupon.discount / 100)
+              : coupon.discount
         }
-
         const total = subtotal - discount
-
         set({ subtotal, discount, total })
       },
     }),

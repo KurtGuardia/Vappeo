@@ -11,33 +11,30 @@ import { useStore } from '@/lib/store'
 import { useState, useRef, useEffect } from 'react'
 
 export function DeliveryOptions({ venues }) {
-  const { deliveryOption, setDeliveryOption } = useStore()
-  const [selectedVenue, setSelectedVenue] = useState('')
-  const [deliveryData, setDeliveryData] = useState({
-    name: '',
-    phone: '',
-    address: '',
-    observations: '',
-    urgent: false,
-    city: '',
-  })
-  const mapContainer = useRef(null)
+  const {
+    deliveryOption,
+    setDeliveryOption,
+    pickupPointId,
+    setPickupPoint,
+    deliveryDetails,
+    setDeliveryDetails,
+    selectedCity,
+  } = useStore()
 
-  useEffect(() => {
-    if (
-      deliveryOption === 'delivery' &&
-      mapContainer.current
-    ) {
-      // TODO: Initialize Mapbox map for delivery
-      console.log(
-        'Initialize Mapbox for delivery address selection',
-      )
-    }
-  }, [deliveryOption])
+  const availableVenues = venues.filter(
+    (v) => v.ciudad.toLowerCase() === selectedCity,
+  )
+
+  const handleDetailChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setDeliveryDetails({
+      [name]: type === 'checkbox' ? checked : value,
+    })
+  }
 
   return (
     <div className='space-y-6'>
-      <h3 className='text-xl font-brand bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'>
+      <h3 className='text-xl font-brand ...'>
         OPCIONES DE ENTREGA
       </h3>
       <RadioGroup
@@ -45,6 +42,7 @@ export function DeliveryOptions({ venues }) {
         onValueChange={setDeliveryOption}
         className='space-y-4'
       >
+        {/* --- PICKUP OPTION --- */}
         <div className='glass-effect p-4 rounded-xl'>
           <div className='flex items-center space-x-3 mb-3'>
             <RadioGroupItem value='pickup' id='pickup' />
@@ -55,40 +53,39 @@ export function DeliveryOptions({ venues }) {
               Recoger en tienda
             </Label>
           </div>
-
           {deliveryOption === 'pickup' && (
-            <div className='ml-6 space-y-3'>
-              <RadioGroup
-                value={selectedVenue}
-                onValueChange={setSelectedVenue}
-              >
-                {venues.map((venue) => (
-                  <div
-                    key={venue.id}
-                    className='flex items-center space-x-2 p-2 hover:bg-gray-800/50 rounded-lg'
+            <RadioGroup
+              value={pickupPointId}
+              onValueChange={setPickupPoint}
+              className='ml-6 space-y-3'
+            >
+              {availableVenues.map((venue) => (
+                <div
+                  key={venue.id}
+                  className='flex items-center space-x-2 ...'
+                >
+                  <RadioGroupItem
+                    value={venue.id}
+                    id={venue.id}
+                  />
+                  <Label
+                    htmlFor={venue.id}
+                    className='flex-1 cursor-pointer'
                   >
-                    <RadioGroupItem
-                      value={venue.id}
-                      id={venue.id}
-                    />
-                    <Label
-                      htmlFor={venue.id}
-                      className='flex-1 cursor-pointer'
-                    >
-                      <div className='font-medium'>
-                        {venue.name}
-                      </div>
-                      <div className='text-sm text-gray-400'>
-                        {venue.address}
-                      </div>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
+                    <div className='font-medium'>
+                      {venue.nombre}
+                    </div>
+                    <div className='text-sm text-gray-400'>
+                      {venue.direccion}
+                    </div>
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
           )}
         </div>
 
+        {/* --- DELIVERY OPTION --- */}
         <div className='glass-effect p-4 rounded-xl'>
           <div className='flex items-center space-x-3 mb-3'>
             <RadioGroupItem
@@ -102,67 +99,42 @@ export function DeliveryOptions({ venues }) {
               Entrega a domicilio
             </Label>
           </div>
-
           {deliveryOption === 'delivery' && (
             <div className='ml-6 space-y-4'>
-              <div className='grid grid-cols-2 gap-3'>
-                <Input
-                  placeholder='Nombre completo'
-                  value={deliveryData.name}
-                  onChange={(e) =>
-                    setDeliveryData((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }))
-                  }
-                />
-                <Input
-                  placeholder='Teléfono'
-                  value={deliveryData.phone}
-                  onChange={(e) =>
-                    setDeliveryData((prev) => ({
-                      ...prev,
-                      phone: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-
-              <div
-                ref={mapContainer}
-                className='bg-gray-800 h-32 rounded-lg flex items-center justify-center'
-              >
-                <p className='text-gray-400 text-sm'>
-                  Mapa Mapbox para selección de dirección
-                </p>
-              </div>
-
+              {/* Note the `name` attribute matches the store key */}
               <Input
-                placeholder='Dirección completa'
-                value={deliveryData.address}
-                onChange={(e) =>
-                  setDeliveryData((prev) => ({
-                    ...prev,
-                    address: e.target.value,
-                  }))
-                }
+                name='name'
+                placeholder='Nombre completo'
+                value={deliveryDetails.name}
+                onChange={handleDetailChange}
               />
-
+              <Input
+                name='phone'
+                placeholder='Teléfono'
+                value={deliveryDetails.phone}
+                onChange={handleDetailChange}
+              />
+              {/* TODO: Mapbox will go here later */}
+              <div className='bg-gray-800 h-32 ...'>
+                <p>Mapa Mapbox...</p>
+              </div>
+              <Input
+                name='address'
+                placeholder='Dirección completa'
+                value={deliveryDetails.address}
+                onChange={handleDetailChange}
+              />
               <Textarea
-                placeholder='Observaciones (referencias, instrucciones especiales...)'
-                value={deliveryData.observations}
-                onChange={(e) =>
-                  setDeliveryData((prev) => ({
-                    ...prev,
-                    observations: e.target.value,
-                  }))
-                }
-                className='resize-none'
-                rows={3}
+                name='observations'
+                placeholder='Observaciones...'
+                value={deliveryDetails.observations}
+                onChange={handleDetailChange}
               />
             </div>
           )}
         </div>
+
+        {/* --- INTERIOR OPTION --- */}
 
         <div className='glass-effect p-4 rounded-xl'>
           <div className='flex items-center space-x-3 mb-3'>
@@ -182,80 +154,56 @@ export function DeliveryOptions({ venues }) {
             <div className='ml-6 space-y-4'>
               <div className='grid grid-cols-2 gap-3'>
                 <Input
+                  name='name'
                   placeholder='Nombre completo'
-                  value={deliveryData.name}
-                  onChange={(e) =>
-                    setDeliveryData((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }))
-                  }
+                  value={deliveryDetails.name}
+                  onChange={handleDetailChange}
                 />
                 <Input
+                  name='phone'
                   placeholder='Teléfono'
-                  value={deliveryData.phone}
-                  onChange={(e) =>
-                    setDeliveryData((prev) => ({
-                      ...prev,
-                      phone: e.target.value,
-                    }))
-                  }
+                  value={deliveryDetails.phone}
+                  onChange={handleDetailChange}
                 />
               </div>
 
               <Input
+                name='city'
                 placeholder='Ciudad de destino'
-                value={deliveryData.city}
-                onChange={(e) =>
-                  setDeliveryData((prev) => ({
-                    ...prev,
-                    city: e.target.value,
-                  }))
-                }
+                value={deliveryDetails.city}
+                onChange={handleDetailChange}
               />
 
               <Input
+                name='address'
                 placeholder='Dirección completa'
-                value={deliveryData.address}
-                onChange={(e) =>
-                  setDeliveryData((prev) => ({
-                    ...prev,
-                    address: e.target.value,
-                  }))
-                }
+                value={deliveryDetails.address}
+                onChange={handleDetailChange}
               />
 
               <Textarea
+                name='observations'
                 placeholder='Observaciones (referencias, instrucciones especiales...)'
-                value={deliveryData.observations}
-                onChange={(e) =>
-                  setDeliveryData((prev) => ({
-                    ...prev,
-                    observations: e.target.value,
-                  }))
-                }
+                value={deliveryDetails.observations}
+                onChange={handleDetailChange}
                 className='resize-none'
                 rows={3}
               />
 
               <div className='flex items-center space-x-2 p-3 bg-amber-900/20 rounded-lg border border-amber-600/30'>
                 <input
+                  name='urgent'
                   type='checkbox'
                   id='urgent'
-                  checked={deliveryData.urgent}
-                  onChange={(e) =>
-                    setDeliveryData((prev) => ({
-                      ...prev,
-                      urgent: e.target.checked,
-                    }))
-                  }
+                  checked={deliveryDetails.urgent}
+                  onChange={handleDetailChange}
                   className='rounded'
                 />
                 <Label
                   htmlFor='urgent'
                   className='text-amber-200'
                 >
-                  Envío urgente (avión) +Bs. 150
+                  Envío urgente (avión)
                 </Label>
               </div>
             </div>
