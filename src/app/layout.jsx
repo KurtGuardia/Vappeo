@@ -17,7 +17,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='es' className={`dark ${bebas.variable}`}>
+    <html
+      lang='es'
+      className={`dark ${bebas.variable}`}
+      suppressHydrationWarning={true}
+    >
       <body
         className={`${inter.className} bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white min-h-screen`}
       >

@@ -26,8 +26,6 @@ export function AgeGateDialog() {
   }
 
   const handleDecline = () => {
-    // Redirects to the client's Instagram page.
-    // TODO: Replace with the actual Instagram URL.
     window.location.href = 'https://www.instagram.com'
   }
 

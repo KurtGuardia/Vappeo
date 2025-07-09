@@ -1,84 +1,99 @@
-"use client";
-import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { FlavorDialog } from "@/components/flavor-dialog"
-import { useStore } from "@/lib/store"
-import Image from "next/image"
+'use client'
+import { useState } from 'react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { FlavorDialog } from '@/components/flavor-dialog'
+import { useStore } from '@/lib/store'
+import Image from 'next/image'
 
-export function ProductCatalog() {
+export function ProductCatalog({ productos, inventario }) {
   const { selectedCity } = useStore()
-  const [products, setProducts] = useState([])
-  const [selectedProduct, setSelectedProduct] = useState(null)
-
-  useEffect(() => {
-    // TODO: Replace with actual API call to /api/sheets/products
-    const mockProducts = [
-      {
-        id: "1",
-        name: "VAPE 3.5K",
-        price: 35,
-        image: "/placeholder.svg?height=200&width=200",
-        description: "Perfecto para principiantes, sabor intenso",
-      },
-      {
-        id: "2",
-        name: "VAPE 20K",
-        price: 120,
-        image: "/placeholder.svg?height=200&width=200",
-        description: "El más popular, duración extendida",
-      },
-      {
-        id: "3",
-        name: "VAPE 36K",
-        price: 200,
-        image: "/placeholder.svg?height=200&width=200",
-        description: "Premium experience, máxima calidad",
-      },
-    ]
-    setProducts(mockProducts)
-  }, [selectedCity])
+  const [selectedProduct, setSelectedProduct] =
+    useState(null)
+  console.log(inventario, productos, selectedCity)
+  // Filter products that have at least one flavor available in the selected city
+  const availableProducts = productos.filter((p) =>
+    inventario.some(
+      (inv) =>
+        inv.producto_id === p.id &&
+        inv.ciudad.toLowerCase() === selectedCity,
+    ),
+  )
 
   return (
-    (<div className="space-y-8">
-      <h2
-        className="text-2xl font-brand text-center bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent">
+    <div className='space-y-8'>
+      <h2 className='text-2xl font-brand text-center bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'>
         NUESTROS PRODUCTOS
       </h2>
-      <div className="grid gap-6">
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            className="glass-effect border-gray-700/50 card-hover overflow-hidden">
-            <CardContent className="p-0">
-              <div className="relative">
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 text-center">
+      <div className='grid gap-6'>
+        {availableProducts.map((product) => {
+          const cityInventoryItem = inventario.find(
+            (inv) =>
+              inv.producto_id === product.id &&
+              inv.ciudad.toLowerCase() === selectedCity,
+          )
+          // Fallback price if somehow not found, though your filter logic prevents this.
+          const price = cityInventoryItem
+            ? cityInventoryItem.precio
+            : 'N/A'
+
+          return (
+            <Card
+              key={product.id}
+              className='glass-effect rounded-2xl overflow-hidden flex flex-col'
+            >
+              <CardContent className='p-6 flex flex-col flex-1 items-center text-center'>
+                <div className='relative w-32 h-32 mb-4'>
                   <Image
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    width={120}
-                    height={120}
-                    className="mx-auto rounded-xl mb-4 shadow-lg" />
-                  <h3 className="font-brand text-2xl mb-2 text-white">{product.name}</h3>
-                  <p className="text-gray-400 text-sm mb-4">{product.description}</p>
-                  <div className="text-3xl font-bold text-[#C1121F] mb-4">Bs. {product.price}</div>
-                  <Button
-                    onClick={() => setSelectedProduct(product)}
-                    className="w-full bg-gradient-to-r from-[#C1121F] to-[#8B0000] hover:from-[#91090f] hover:to-[#5a0000] text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300">
-                    ELEGIR SABORES
-                  </Button>
+                    src={
+                      product.imagen_general ||
+                      '/placeholder.svg'
+                    }
+                    alt={product.nombre}
+                    layout='fill'
+                    objectFit='contain'
+                  />
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                <div className='flex-1'>
+                  <h3 className='font-brand text-2xl'>
+                    {product.nombre}
+                  </h3>
+                  <p className='text-gray-400 text-sm mt-1 mb-4'>
+                    {product.descripcion}
+                  </p>
+                </div>
+                <div className='text-3xl font-bold text-[#C1121F] mb-4'>
+                  Bs. {price}
+                </div>
+                <Button
+                  onClick={() =>
+                    setSelectedProduct({
+                      ...product,
+                      // Pass the correct numeric price to the dialog
+                      price: parseFloat(price),
+                    })
+                  }
+                  className='w-full bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold'
+                >
+                  ELEGIR SABORES
+                </Button>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
       {selectedProduct && (
         <FlavorDialog
           product={selectedProduct}
+          inventario={inventario.filter(
+            (inv) =>
+              inv.producto_id === selectedProduct.id &&
+              inv.ciudad.toLowerCase() === selectedCity,
+          )}
           open={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)} />
+          onClose={() => setSelectedProduct(null)}
+        />
       )}
-    </div>)
-  );
+    </div>
+  )
 }

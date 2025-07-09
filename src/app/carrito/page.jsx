@@ -1,45 +1,44 @@
-"use client"
+import {
+  getSheetsData,
+  sheetsDataToObject,
+} from '@/lib/sheets'
+import { CartView } from '@/components/cart-view'
 
-import { CartItems } from "@/components/cart-items"
-import { CouponInput } from "@/components/coupon-input"
-import { DeliveryOptions } from "@/components/delivery-options"
-import { CartTotals } from "@/components/cart-totals"
-import { Button } from "@/components/ui/button"
-import { useStore } from "@/lib/store"
-import { useRouter } from "next/navigation"
+export default async function CartPage() {
+  const mockPromos = [
+    {
+      codigo: 'BIENVENIDO',
+      tipo: 'porcentaje',
+      valor: '10',
+      activo: 'Si',
+    },
+    {
+      codigo: 'VAPPEO20',
+      tipo: 'fijo',
+      valor: '20',
+      activo: 'Si',
+    },
+  ]
+  const mockPuntos = [
+    {
+      id: 'cbba-norte',
+      ciudad: 'Cochabamba',
+      nombre: 'Sucursal Norte',
+      direccion: 'Av. América #123',
+    },
+    {
+      id: 'scz-centro',
+      ciudad: 'Santa Cruz',
+      nombre: 'Punto Central SCZ',
+      direccion: 'Calle 21 de Mayo',
+    },
+  ]
 
-export default function CartPage() {
-  const { cart, total } = useStore()
-  const router = useRouter()
-
-  if (cart.length === 0) {
-    return (
-      (<div className="px-4 py-8 text-center">
-        <h1 className="text-2xl font-brand mb-4">TU CARRITO ESTÁ VACÍO</h1>
-        <Button
-          onClick={() => router.push("/")}
-          className="bg-[#C1121F] hover:bg-[#91090f]">
-          CONTINUAR COMPRANDO
-        </Button>
-      </div>)
-    );
-  }
+  // const data = await getSheetsData(['Promo', 'Puntos']);
+  // const promos = data ? sheetsDataToObject(data[0].values) : mockPromos;
+  // const puntos = data ? sheetsDataToObject(data[1].values) : mockPuntos;
 
   return (
-    (<div className="px-4 space-y-6">
-      <h1 className="text-2xl font-brand">TU CARRITO</h1>
-      <CartItems />
-      <CouponInput />
-      <DeliveryOptions />
-      <CartTotals />
-      <div
-        className="fixed bottom-20 left-0 right-0 p-4 bg-black border-t border-gray-800">
-        <Button
-          className="w-full bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold"
-          onClick={() => router.push("/checkout")}>
-          CONTINUAR AL PAGO
-        </Button>
-      </div>
-    </div>)
-  );
+    <CartView promos={mockPromos} puntos={mockPuntos} />
+  )
 }
