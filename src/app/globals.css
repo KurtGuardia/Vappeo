@@ -117,6 +117,10 @@
 }
 
 @layer base {
+  html {
+    /* Handles smooth scrolling and offset for hash links (e.g., /#social-section) */
+    @apply scroll-smooth scroll-pt-20;
+  }
   * {
     @apply border-border outline-ring/50;
   }
@@ -137,7 +141,7 @@
 
 @keyframes marquee {
   from {
-    transform: translateX(50vw);
+    transform: translateX(100vw);
   }
   to {
     transform: translateX(-100%);
