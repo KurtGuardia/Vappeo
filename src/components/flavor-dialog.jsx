@@ -35,7 +35,7 @@ export function FlavorDialog({
       return {
         id: inv.sabor,
         name: inv.sabor,
-        stock: parseInt(inv.stock, 10),
+        stock: parseInt(inv.stock || 0, 10),
         etiqueta: inv.etiqueta,
         quantity: quantityInCart, // Start with the quantity from the cart
       }
@@ -72,7 +72,7 @@ export function FlavorDialog({
     if (selectedFlavors.length > 0) {
       setCartItem({
         id: product.id,
-        name: product.name,
+        name: product.nombre,
         price: product.price,
         flavors: selectedFlavors,
       })
@@ -102,22 +102,22 @@ export function FlavorDialog({
       case 'QUEDAN_POCOS':
         return {
           containerClass: 'bg-gray-900 border-amber-600',
-          borderClass: 'border-b-4 border-b-amber-600',
-          message: 'ÚLTIMAS 5',
-          messageColor: 'text-amber-200',
+          borderClass: 'border-b-amber-600',
+          message: 'ÚLTIMAS',
+          messageColor: 'text-green-300',
         }
       case 'AGOTADO':
         return {
           containerClass:
             'bg-gray-900 border-red-600 opacity-60',
-          borderClass: 'border-b-4 border-b-red-600',
+          borderClass: 'border-b-red-600',
           message: 'AGOTADO',
           messageColor: 'text-red-200',
         }
       case 'TOP_24H':
         return {
           containerClass: 'bg-gray-900 border-[#C1121F]',
-          borderClass: 'border-b-4 border-b-[#C1121F]',
+          borderClass: 'border-b-[#C1121F]',
           message: 'TOP 24H',
           messageColor: 'text-red-200',
         }
@@ -136,7 +136,7 @@ export function FlavorDialog({
       <DialogContent className='bg-black border-gray-700 max-w-sm mx-auto max-h-[80vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle className='font-brand text-xl'>
-            {product.name} - SABORES
+            {product.nombre} - SABORES
           </DialogTitle>
         </DialogHeader>
 
@@ -154,7 +154,7 @@ export function FlavorDialog({
             return (
               <div
                 key={flavor.id}
-                className={`relative flex items-center justify-between p-3 rounded-lg border ${styles.containerClass} ${styles.borderClass}`}
+                className={`relative flex items-center justify-between p-3 rounded-lg border border-b-14 ${styles.containerClass} ${styles.borderClass}`}
               >
                 <div className='flex-1'>
                   <span>{flavor.name}</span>
@@ -190,7 +190,8 @@ export function FlavorDialog({
                         ),
                       )
                     }}
-                    className='w-16 text-center'
+                    readOnly
+                    className='w-16 text-center bg-gray-800 cursor-default focus:ring-0'
                     min='0'
                     max={flavor.stock}
                     disabled={
@@ -210,7 +211,7 @@ export function FlavorDialog({
                 </div>
                 {styles.message && (
                   <div
-                    className={`absolute bottom-0 right-2 text-xs font-semibold ${styles.messageColor} transform translate-y-1/2`}
+                    className={`absolute -bottom-2 right-2 text-xs font-semibold ${styles.messageColor} transform translate-y-1/2`}
                   >
                     {styles.message}
                   </div>

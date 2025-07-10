@@ -28,7 +28,7 @@ export const MOCK_DATA = {
       sabor: 'Mango',
       ciudad: 'Cochabamba',
       precio: '80',
-      stock: '2',
+      stock: '15',
       etiqueta: null,
     },
     {
