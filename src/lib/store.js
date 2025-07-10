@@ -22,18 +22,13 @@ export const useStore = create()(
         urgent: false,
       },
 
-      setSelectedCity: (city) => {
-        const confirmed = confirm(
-          'Cambiar de ciudad vaciará tu carrito. ¿Continuar?',
-        )
-        if (confirmed) {
-          set({
-            selectedCity: city.toLowerCase(),
-            cart: [],
-            coupon: null,
-          })
-          get().calculateTotals()
-        }
+      changeCityAndClearCart: (city) => {
+        set({
+          selectedCity: city.toLowerCase(),
+          cart: [],
+          coupon: null, // Also reset the coupon
+        })
+        get().calculateTotals()
       },
 
       setCartItem: (itemToSet) => {
