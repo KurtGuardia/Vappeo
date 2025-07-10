@@ -11,7 +11,7 @@ export function HeroSection({ quote }) {
         objectFit='cover'
         priority
       />
-      <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4'>
+      <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4 w-fit'>
         <div className='marquee whitespace-nowrap text-white font-semibold text-lg bg-black/30 backdrop-blur-sm rounded-full py-3 px-6'>
           🎉 {quote} 🎉
         </div>

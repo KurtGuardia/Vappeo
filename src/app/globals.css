@@ -130,3 +130,16 @@
     @apply bg-white/10 backdrop-blur-sm border border-white/15;
   }
 }
+
+.marquee {
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(50vw);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
