@@ -17,27 +17,31 @@ export function FlavorDialog({
   open,
   onClose,
 }) {
-  const { addToCart } = useStore()
+  const { cart, setCartItem } = useStore()
   const [flavors, setFlavors] = useState([])
 
   useEffect(() => {
-    if (inventario) {
-      setFlavors(
-        inventario.map((inv) => ({
-          id: inv.sabor,
-          name: inv.sabor,
-          stockFlag:
-            inv.etiqueta ||
-            (parseInt(inv.stock) > 0
-              ? parseInt(inv.stock) <= 5
-                ? 'QUEDAN_5'
-                : 'OK'
-              : 'AGOTADO'),
-          quantity: 0,
-        })),
-      )
-    }
-  }, [inventario])
+    // This effect now runs when the dialog opens OR if the cart changes while it's open.
+    const cartProduct = cart.find(
+      (item) => item.id === product.id,
+    )
+
+    // Initialize the dialog's state based on inventory AND what's already in the cart.
+    const initialFlavors = inventario.map((inv) => {
+      const quantityInCart =
+        cartProduct?.flavors.find(
+          (f) => f.name === inv.sabor,
+        )?.quantity || 0
+      return {
+        id: inv.sabor,
+        name: inv.sabor,
+        stock: parseInt(inv.stock, 10),
+        etiqueta: inv.etiqueta,
+        quantity: quantityInCart, // Start with the quantity from the cart
+      }
+    })
+    setFlavors(initialFlavors)
+  }, [open, product.id, inventario, cart]) // Depend on `cart` to react to changes
 
   const totalQuantity = flavors.reduce(
     (sum, f) => sum + f.quantity,
@@ -45,31 +49,28 @@ export function FlavorDialog({
   )
 
   const updateQuantity = (flavorId, change) => {
-    setFlavors((prev) =>
-      prev.map((f) => {
+    setFlavors((prevFlavors) =>
+      prevFlavors.map((f) => {
         if (f.id === flavorId) {
-          // Logic to not exceed stock
-          const newQuantity = Math.max(
-            0,
-            f.quantity + change,
+          // The new quantity is clamped between 0 and the total available stock.
+          const newQuantity = Math.min(
+            f.stock,
+            Math.max(0, f.quantity + change),
           )
-          return {
-            ...f,
-            quantity:
-              newQuantity > f.stock ? f.stock : newQuantity,
-          }
+          return { ...f, quantity: newQuantity }
         }
         return f
       }),
     )
   }
 
-  const handleAddToCart = () => {
-    const selectedFlavors = flavors.filter(
-      (f) => f.quantity > 0,
-    )
+  const handleSetCartItem = () => {
+    const selectedFlavors = flavors
+      .filter((f) => f.quantity > 0)
+      .map(({ id, name, quantity }) => ({ name, quantity })) // Clean up the object for the store
+
     if (selectedFlavors.length > 0) {
-      addToCart({
+      setCartItem({
         id: product.id,
         name: product.name,
         price: product.price,
@@ -144,6 +145,12 @@ export function FlavorDialog({
             const stockFlag = getStockFlag(flavor)
             // You can now use a simplified style function based on this flag
             const styles = getFlavorStyles(stockFlag)
+            const isPlusDisabled =
+              flavor.quantity >= flavor.stock ||
+              stockFlag === 'AGOTADO'
+            const isMinusDisabled =
+              flavor.quantity === 0 ||
+              stockFlag === 'AGOTADO'
             return (
               <div
                 key={flavor.id}
@@ -159,10 +166,7 @@ export function FlavorDialog({
                     onClick={() =>
                       updateQuantity(flavor.id, -1)
                     }
-                    disabled={
-                      flavor.quantity === 0 ||
-                      flavor.stockFlag === 'AGOTADO'
-                    }
+                    disabled={isMinusDisabled}
                   >
                     <Minus className='h-4 w-4' />
                   </Button>
@@ -188,6 +192,7 @@ export function FlavorDialog({
                     }}
                     className='w-16 text-center'
                     min='0'
+                    max={flavor.stock}
                     disabled={
                       flavor.stockFlag === 'AGOTADO'
                     }
@@ -198,9 +203,7 @@ export function FlavorDialog({
                     onClick={() =>
                       updateQuantity(flavor.id, 1)
                     }
-                    disabled={
-                      flavor.stockFlag === 'AGOTADO'
-                    }
+                    disabled={isPlusDisabled}
                   >
                     <Plus className='h-4 w-4' />
                   </Button>
@@ -222,7 +225,7 @@ export function FlavorDialog({
             </div>
             <Button
               className='w-full bg-[#C1121F] hover:bg-[#91090f]'
-              onClick={handleAddToCart}
+              onClick={handleSetCartItem}
               disabled={totalQuantity === 0}
             >
               AGREGAR AL CARRITO

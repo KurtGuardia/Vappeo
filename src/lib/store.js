@@ -36,48 +36,32 @@ export const useStore = create()(
         }
       },
 
-      addToCart: (itemToAdd) => {
-        const { cart } = get()
-        const existingItemIndex = cart.findIndex(
-          (item) => item.id === itemToAdd.id,
-        )
-
-        let newCart = [...cart]
-
-        if (existingItemIndex !== -1) {
-          const existingItem = newCart[existingItemIndex]
-          const updatedFlavors = [...existingItem.flavors]
-
-          itemToAdd.flavors.forEach((newFlavor) => {
-            const existingFlavorIndex =
-              updatedFlavors.findIndex(
-                (f) => f.name === newFlavor.name,
-              )
-            if (existingFlavorIndex !== -1) {
-              updatedFlavors[
-                existingFlavorIndex
-              ].quantity += newFlavor.quantity
-            } else {
-              updatedFlavors.push(newFlavor)
-            }
-          })
-
-          existingItem.flavors = updatedFlavors.filter(
-            (f) => f.quantity > 0,
+      setCartItem: (itemToSet) => {
+        set((state) => {
+          const newCart = [...state.cart]
+          const existingItemIndex = newCart.findIndex(
+            (item) => item.id === itemToSet.id,
           )
-          newCart[existingItemIndex] = existingItem
-        } else {
-          // Item is new, add it to the cart.
-          newCart.push(itemToAdd)
-        }
 
-        // Remove items that might have no flavors after an update
-        newCart = newCart.filter(
-          (item) => item.flavors.length > 0,
-        )
+          // If the user selected any flavors...
+          if (itemToSet.flavors.length > 0) {
+            if (existingItemIndex !== -1) {
+              // Item exists, so we replace it with the new version from the dialog.
+              newCart[existingItemIndex] = itemToSet
+            } else {
+              // Item is new, add it to the cart.
+              newCart.push(itemToSet)
+            }
+          } else {
+            // If the user deselected all flavors, remove the item from the cart.
+            if (existingItemIndex !== -1) {
+              newCart.splice(existingItemIndex, 1)
+            }
+          }
 
-        set({ cart: newCart })
-        get().calculateTotals()
+          return { cart: newCart }
+        })
+        get().calculateTotals() // Recalculate totals after any change.
       },
 
       removeFromCart: (index) => {
