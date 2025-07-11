@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useStore } from '@/lib/store'
 import { useState, useRef, useEffect } from 'react'
+import { MapDelivery } from './map-delivery'
 
 export function DeliveryOptions({ venues }) {
   const {
@@ -114,10 +115,7 @@ export function DeliveryOptions({ venues }) {
                 value={deliveryDetails.phone}
                 onChange={handleDetailChange}
               />
-              {/* TODO: Mapbox will go here later */}
-              <div className='bg-gray-800 h-32 ...'>
-                <p>Mapa Mapbox...</p>
-              </div>
+              <MapDelivery />
               <Input
                 name='address'
                 placeholder='Dirección completa'

@@ -1,5 +1,6 @@
 import { Inter, Bebas_Neue } from 'next/font/google'
 import './globals.css'
+import 'leaflet/dist/leaflet.css'
 import { Navbar } from '@/components/navbar'
 import { AgeGateDialog } from '@/components/age-gate-dialog'
 

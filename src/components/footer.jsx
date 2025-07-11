@@ -21,8 +21,16 @@ export function Footer() {
         </Link>
       </div>
       <p className='text-xs text-gray-500'>
-        © {currentDate} VAPPEO. Todos los derechos
-        reservados.
+        © {currentDate} VAPPEO dev by{' '}
+        <a
+          href='https://www.kurtguardia.com'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-blue-400 hover:text-blue-300'
+        >
+          Kurt Guardia
+        </a>
+        . Todos los derechos reservados.
       </p>
     </footer>
   )

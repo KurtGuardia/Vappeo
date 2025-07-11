@@ -1,7 +1,7 @@
 import { HeroSection } from '@/components/hero-section'
 import { CitySelector } from '@/components/city-selector'
 import { ProductCatalog } from '@/components/product-catalog'
-import { MapSection } from '@/components/map-section'
+import { MapHome } from '@/components/map-home'
 import { SocialMediaSection } from '@/components/social-media-section'
 import { Footer } from '@/components/footer'
 import {
@@ -37,7 +37,7 @@ export default async function HomePage() {
           inventario={inventario}
         />
       </div>
-      <MapSection puntosRecojo={puntos} />
+      <MapHome puntosRecojo={puntos} />
       <SocialMediaSection />
       <Footer />
     </div>

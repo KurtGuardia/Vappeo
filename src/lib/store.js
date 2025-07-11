@@ -12,7 +12,7 @@ export const useStore = create()(
       subtotal: 0,
       discount: 0,
       total: 0,
-      pickupPointId: null, // e.g., 'cbba-norte'
+      pickupPointId: null,
       deliveryDetails: {
         name: '',
         phone: '',
@@ -26,7 +26,7 @@ export const useStore = create()(
         set({
           selectedCity: city.toLowerCase(),
           cart: [],
-          coupon: null, // Also reset the coupon
+          coupon: null,
         })
         get().calculateTotals()
       },
