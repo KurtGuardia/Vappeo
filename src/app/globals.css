@@ -118,7 +118,6 @@
 
 @layer base {
   html {
-    /* Handles smooth scrolling and offset for hash links (e.g., /#social-section) */
     @apply scroll-smooth scroll-pt-20;
   }
   * {

@@ -84,7 +84,7 @@ export function FlavorDialog({
     if (flavor.etiqueta) return flavor.etiqueta
     if (flavor.stock === 0) return 'AGOTADO'
     if (flavor.stock > 0 && flavor.stock <= 5)
-      return 'QUEDAN_POCOS' // Renamed for clarity
+      return 'QUEDAN_POCOS'
     return 'OK'
   }
 
@@ -102,38 +102,43 @@ export function FlavorDialog({
       case 'QUEDAN_POCOS':
         return {
           containerClass: 'bg-gray-900 border-amber-600',
-          borderClass: 'border-b-amber-600',
+          borderClass: 'border-b-14 border-b-amber-600',
           message: 'ÚLTIMAS',
-          messageColor: 'text-green-300',
         }
       case 'AGOTADO':
         return {
           containerClass:
             'bg-gray-900 border-red-600 opacity-60',
-          borderClass: 'border-b-red-600',
+          borderClass: 'border-b-14 border-b-red-600',
           message: 'AGOTADO',
-          messageColor: 'text-red-200',
         }
-      case 'TOP_24H':
+      case 'TOP':
         return {
-          containerClass: 'bg-gray-900 border-[#C1121F]',
-          borderClass: 'border-b-[#C1121F]',
-          message: 'TOP 24H',
-          messageColor: 'text-red-200',
+          containerClass: 'bg-gray-900 border-green-600',
+          borderClass: 'border-b-14 border-b-green-600',
+          message: 'TOP MÁS VENDIDO',
+        }
+      case 'NUEVO':
+        return {
+          containerClass: 'bg-gray-900 border-blue-500',
+          borderClass: 'border-b-14 border-b-blue-500',
+          message: 'NUEVO',
         }
       default:
         return {
           containerClass: 'bg-gray-900 border-gray-700',
           borderClass: '',
           message: '',
-          messageColor: '',
         }
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className='bg-black border-gray-700 max-w-sm mx-auto max-h-[80vh] overflow-y-auto'>
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className='bg-black border-gray-700 max-w-sm mx-auto max-h-[80vh] overflow-y-auto'
+      >
         <DialogHeader>
           <DialogTitle className='font-brand text-xl'>
             {product.nombre} - SABORES
@@ -143,7 +148,6 @@ export function FlavorDialog({
         <div className='space-y-4'>
           {flavors.map((flavor) => {
             const stockFlag = getStockFlag(flavor)
-            // You can now use a simplified style function based on this flag
             const styles = getFlavorStyles(stockFlag)
             const isPlusDisabled =
               flavor.quantity >= flavor.stock ||
@@ -154,7 +158,7 @@ export function FlavorDialog({
             return (
               <div
                 key={flavor.id}
-                className={`relative flex items-center justify-between p-3 rounded-lg border border-b-14 ${styles.containerClass} ${styles.borderClass}`}
+                className={`text-white relative flex items-center justify-between p-3 rounded-lg border ${styles.containerClass} ${styles.borderClass}`}
               >
                 <div className='flex-1'>
                   <span>{flavor.name}</span>
@@ -211,7 +215,7 @@ export function FlavorDialog({
                 </div>
                 {styles.message && (
                   <div
-                    className={`absolute -bottom-2 right-2 text-xs font-semibold ${styles.messageColor} transform translate-y-1/2`}
+                    className={`absolute -bottom-2 right-2 text-xs tracking-widest font-semibold transform translate-y-1/2`}
                   >
                     {styles.message}
                   </div>

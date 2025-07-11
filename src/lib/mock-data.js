@@ -61,7 +61,7 @@ export const MOCK_DATA = {
       ciudad: 'Cochabamba',
       precio: '80',
       stock: '7',
-      etiqueta: 'QUEDAN POCOS',
+      etiqueta: null,
     },
     {
       producto_id: 'vape-20k',
@@ -69,7 +69,7 @@ export const MOCK_DATA = {
       ciudad: 'Cochabamba',
       precio: '150',
       stock: '12',
-      etiqueta: 'TOP 24h',
+      etiqueta: 'TOP',
     },
     {
       producto_id: 'vape-20k',
@@ -77,7 +77,7 @@ export const MOCK_DATA = {
       ciudad: 'Cochabamba',
       precio: '150',
       stock: '8',
-      etiqueta: 'QUEDAN POCOS',
+      etiqueta: null,
     },
     {
       producto_id: 'vape-20k',
@@ -149,7 +149,7 @@ export const MOCK_DATA = {
       ciudad: 'Cochabamba',
       precio: '220',
       stock: '12',
-      etiqueta: 'TOP 24h',
+      etiqueta: 'TOP',
     },
     {
       producto_id: 'vape-36k',
@@ -157,7 +157,7 @@ export const MOCK_DATA = {
       ciudad: 'Santa Cruz',
       precio: '225',
       stock: '7',
-      etiqueta: 'QUEDAN POCOS',
+      etiqueta: null,
     },
     {
       producto_id: 'vape-36k',
