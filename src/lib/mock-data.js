@@ -306,7 +306,7 @@ export const MOCK_DATA = {
       codigo: 'FINDEANO',
       tipo: 'fijo',
       valor: '30',
-      activo: '2024-12-31',
+      activo: '2025-12-31',
     },
   ],
   marketing: [

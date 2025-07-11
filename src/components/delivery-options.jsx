@@ -8,7 +8,6 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useStore } from '@/lib/store'
-import { useState, useRef, useEffect } from 'react'
 import { MapDelivery } from './map-delivery'
 
 export function DeliveryOptions({ venues }) {
@@ -175,7 +174,7 @@ export function DeliveryOptions({ venues }) {
               <Input
                 name='address'
                 placeholder='Dirección completa'
-                value={deliveryDetails.address}
+                value={deliveryDetails.addressInterior}
                 onChange={handleDetailChange}
               />
 

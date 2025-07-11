@@ -8,7 +8,7 @@ export const useStore = create()(
       selectedCity: 'cochabamba',
       cart: [],
       deliveryOption: 'pickup',
-      coupon: null,
+      appliedCoupons: [],
       subtotal: 0,
       discount: 0,
       total: 0,
@@ -17,8 +17,9 @@ export const useStore = create()(
         name: '',
         phone: '',
         address: '',
+        addressInterior: '',
         observations: '',
-        city: '', // For 'interior'
+        city: '',
         urgent: false,
       },
 
@@ -81,32 +82,61 @@ export const useStore = create()(
         }))
       },
 
-      applyCoupon: (coupon) => {
-        set({ coupon })
+      setAppliedCoupons: (coupons) => {
+        set({ appliedCoupons: coupons })
         get().calculateTotals()
       },
 
       calculateTotals: () => {
-        const { cart, coupon } = get()
+        const { cart, appliedCoupons } = get()
+
         const subtotal = cart.reduce(
           (sum, item) =>
             sum +
             item.price *
               item.flavors.reduce(
-                (flavorSum, f) => flavorSum + f.quantity,
+                (flavorSum, flavor) =>
+                  flavorSum + flavor.quantity,
                 0,
               ),
           0,
         )
-        let discount = 0
-        if (coupon) {
-          discount =
-            coupon.type === 'percentage'
-              ? subtotal * (coupon.discount / 100)
-              : coupon.discount
+
+        let totalPercentageDiscountValue = 0
+        let totalFixedDiscountValue = 0
+
+        if (appliedCoupons && appliedCoupons.length > 0) {
+          const totalPercentage = appliedCoupons
+            .filter((c) => c.type === 'porcentaje')
+            .reduce(
+              (sum, c) => sum + parseFloat(c.discount),
+              0,
+            )
+
+          totalPercentageDiscountValue =
+            subtotal * (totalPercentage / 100)
+
+          totalFixedDiscountValue = appliedCoupons
+            .filter((c) => c.type === 'fijo')
+            .reduce(
+              (sum, c) => sum + parseFloat(c.discount),
+              0,
+            )
         }
-        const total = subtotal - discount
-        set({ subtotal, discount, total })
+
+        const finalDiscount =
+          totalPercentageDiscountValue +
+          totalFixedDiscountValue
+        const finalTotal = Math.max(
+          0,
+          subtotal - finalDiscount,
+        )
+
+        set({
+          subtotal: subtotal,
+          discount: finalDiscount,
+          total: finalTotal,
+        })
       },
     }),
     {
