@@ -9,15 +9,15 @@ export function HeroSection({ quote }) {
 
   return (
     <div
-      className='relative h-80 bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-center overflow-hidden'
+      className='relative h-80 md:h-96 lg:h-[28rem] bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-center overflow-hidden'
       style={gradientStyle}
     >
       <Image
         src='/imgs/vappeo_logo_transparent.png'
         alt='VAPPEO Logo'
-        width={250}
-        height={62}
-        className='h-20 w-auto -mt-10'
+        width={600}
+        height={149}
+        className='h-24 md:h-36 lg:h-44 w-auto -mt-10'
         priority
       />
       <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4 w-fit'>

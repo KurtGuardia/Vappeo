@@ -30,7 +30,7 @@ export default async function HomePage() {
   return (
     <div className='space-y-12'>
       <HeroSection quote={quote} />
-      <div className='px-4 space-y-12 max-w-sm mx-auto'>
+      <div className='space-y-20 mx-auto'>
         <CitySelector />
         <ProductCatalog
           productos={productos}

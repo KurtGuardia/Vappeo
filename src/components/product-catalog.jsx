@@ -24,7 +24,7 @@ export function ProductCatalog({ productos, inventario }) {
       <h2 className='text-2xl font-brand text-center bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'>
         NUESTROS PRODUCTOS
       </h2>
-      <div className='grid gap-6'>
+      <div className='flex justify-center flex-wrap gap-12'>
         {availableProducts.map((product) => {
           const cityInventoryItem = inventario.find(
             (inv) =>
@@ -67,7 +67,6 @@ export function ProductCatalog({ productos, inventario }) {
                   onClick={() =>
                     setSelectedProduct({
                       ...product,
-                      // Pass the correct numeric price to the dialog
                       price: parseFloat(price),
                     })
                   }

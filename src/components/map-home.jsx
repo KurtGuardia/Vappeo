@@ -52,8 +52,8 @@ export function MapHome({ puntosRecojo }) {
   )
 
   return (
-    <div className='px-4'>
-      <div className='max-w-sm mx-auto space-y-6'>
+    <div className='m-4 md:m-32'>
+      <div className='max-w-sm md:max-w-lg lg:max-w-xl mx-auto space-y-6'>
         <h2 className='text-2xl font-brand text-center ...'>
           NUESTRAS UBICACIONES
         </h2>
