@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import {
   Card,
   CardContent,
@@ -10,7 +11,7 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
-import Image from 'next/image'
+import { useUiStore } from '@/lib/ui-store'
 
 export default function CheckoutPage() {
   const {
@@ -23,6 +24,7 @@ export default function CheckoutPage() {
     pickupPointId,
     deliveryDetails,
   } = useStore()
+  const { openTermsModal } = useUiStore()
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [qrSrc, setQrSrc] = useState(`/qrs/qr-${total}.png`)
   const [isFallbackQr, setIsFallbackQr] = useState(false)
@@ -32,13 +34,11 @@ export default function CheckoutPage() {
     setIsFallbackQr(false)
   }, [total])
 
-  // Get the full pickup point object from mock data
   const { puntos } = require('@/lib/mock-data').MOCK_DATA
+
   const selectedPickupPoint = puntos.find(
     (p) => p.id === pickupPointId,
   )
-
-  // ... your existing QR logic is fine ...
 
   const generateWhatsAppMessage = () => {
     const header = `*Pedido Vappeo*\n*Ciudad:* _${selectedCity}_\n`
@@ -87,6 +87,12 @@ export default function CheckoutPage() {
         totals +
         footer,
     )
+  }
+
+  const handleTermsLabelClick = (e) => {
+    // This allows the checkbox to still be toggled, but also opens the modal.
+    // It's a better UX than preventing the default action.
+    openTermsModal()
   }
 
   return (
@@ -161,7 +167,13 @@ export default function CheckoutPage() {
           onCheckedChange={setAcceptTerms}
         />
         <label htmlFor='terms' className='text-sm'>
-          Acepto los Términos y Condiciones
+          Acepto los{' '}
+          <span
+            onClick={handleTermsLabelClick}
+            className='underline text-[#C1121F] cursor-pointer'
+          >
+            Términos y Condiciones
+          </span>
         </label>
       </div>
       <Button
