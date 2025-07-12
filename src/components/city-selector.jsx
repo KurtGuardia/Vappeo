@@ -49,7 +49,7 @@ export function CitySelector() {
         <RadioGroup
           value={selectedCity}
           onValueChange={handleCityChange}
-          className='flex justify-center space-x-8'
+          className='flex justify-center '
         >
           <div className='flex items-center space-x-3 glass-effect p-4 rounded-xl'>
             <RadioGroupItem

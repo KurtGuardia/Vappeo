@@ -4,20 +4,20 @@ export const MOCK_DATA = {
     {
       id: 'vape-3.5k',
       nombre: 'Vape 3500 Hits',
-      imagen: '/imgs/vape-3.5k-card.png',
+      imagen: '/imgs/vape-3.5k.png',
       descripcion:
         'Ideal para empezar, compacto y potente.',
     },
     {
       id: 'vape-20k',
       nombre: 'Vape 20,000 Hits',
-      imagen: '/imgs/vape-20k-card.png',
+      imagen: '/imgs/vape-20k.png',
       descripcion: 'Batería de larga duración, gran sabor.',
     },
     {
       id: 'vape-36k',
       nombre: 'Vape Pro 36,000 Hits',
-      imagen: '/imgs/vape-36k-card.png',
+      imagen: '/imgs/vape-36k.png',
       descripcion:
         'La experiencia definitiva, máximo vapor.',
     },

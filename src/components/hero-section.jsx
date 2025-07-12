@@ -2,13 +2,22 @@
 import Image from 'next/image'
 
 export function HeroSection({ quote }) {
+  const gradientStyle = {
+    background:
+      'linear-gradient(315deg, #000 20%, #b30000 100%)',
+  }
+
   return (
-    <div className='relative h-80 bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-center overflow-hidden'>
+    <div
+      className='relative h-80 bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-center overflow-hidden'
+      style={gradientStyle}
+    >
       <Image
-        src='/imgs/vappeo_logo.jpg'
-        alt='Vappeo Logo'
-        layout='fill'
-        objectFit='cover'
+        src='/imgs/vappeo_logo_transparent.png'
+        alt='VAPPEO Logo'
+        width={250}
+        height={62}
+        className='h-20 w-auto -mt-10'
         priority
       />
       <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4 w-fit'>
