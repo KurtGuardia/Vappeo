@@ -21,6 +21,8 @@ export const useStore = create()(
         observations: '',
         city: '',
         urgent: false,
+        lat: null,
+        lng: null,
       },
 
       changeCityAndClearCart: (city) => {

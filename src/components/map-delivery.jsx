@@ -55,7 +55,11 @@ export function MapDelivery() {
       latlng.lat,
       latlng.lng,
     )
-    setDeliveryDetails({ address })
+    setDeliveryDetails({
+      address: address,
+      lat: latlng.lat,
+      lng: latlng.lng,
+    })
     setLoading(false)
   }
 

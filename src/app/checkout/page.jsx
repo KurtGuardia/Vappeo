@@ -41,52 +41,123 @@ export default function CheckoutPage() {
   )
 
   const generateWhatsAppMessage = () => {
-    const header = `*Pedido Vappeo*\n*Ciudad:* _${selectedCity}_\n`
+    // Array-based builder is more robust
+    const messageParts = []
 
-    let deliveryInfo = ''
-    if (deliveryOption === 'pickup') {
-      deliveryInfo = `*Método:* _Recoger en tienda_\n*Punto:* _${
-        selectedPickupPoint?.nombre || 'No seleccionado'
-      } - ${selectedPickupPoint?.direccion || ''}_\n`
-    } else if (deliveryOption === 'delivery') {
-      deliveryInfo = `*Método:* _Entrega a domicilio_\n*Cliente:* _${deliveryDetails.name}_\n*Tel:* _${deliveryDetails.phone}_\n*Dirección:* _${deliveryDetails.address}_\n*Obs:* _${deliveryDetails.observations}_\n`
-    } else {
-      // 'interior'
-      deliveryInfo = `*Método:* _Envío al interior_\n*Cliente:* _${
-        deliveryDetails.name
-      }_\n*Tel:* _${
-        deliveryDetails.phone
-      }_\n*Ciudad Destino:* _${
-        deliveryDetails.city
-      }_\n*Dirección:* _${deliveryDetails.address}_\n${
-        deliveryDetails.urgent ? '*ENVÍO URGENTE*' : ''
-      }\n`
+    // --- Header ---
+    messageParts.push('✦  *Pedido Vappeo*  ✦')
+    messageParts.push(`*Ciudad:* _${selectedCity}_`)
+    messageParts.push('')
+
+    // --- Delivery Info ---
+    switch (deliveryOption) {
+      case 'pickup':
+        messageParts.push('*Método:* _Recoger en tienda_')
+        messageParts.push(
+          `*Punto:* _${
+            selectedPickupPoint?.nombre || 'No seleccionado'
+          }_`,
+        )
+        if (selectedPickupPoint?.direccion) {
+          messageParts.push(
+            `*Dirección:* _${selectedPickupPoint.direccion}_`,
+          )
+        }
+        break
+
+      case 'delivery':
+        messageParts.push('*Método:* _Entrega a domicilio_')
+        messageParts.push(
+          `*Cliente:* _${deliveryDetails.name}_`,
+        )
+        if (deliveryDetails.phone)
+          messageParts.push(
+            `*Tel:* _${deliveryDetails.phone}_`,
+          )
+        messageParts.push(
+          `*Dirección:* _${deliveryDetails.address}_`,
+        )
+
+        // THE NEW LOGIC IS HERE:
+        // Conditionally add the Google Maps link if lat/lng exist.
+        if (deliveryDetails.lat && deliveryDetails.lng) {
+          const mapsLink = `https://maps.google.com/?q=${deliveryDetails.lat},${deliveryDetails.lng}`
+          messageParts.push(
+            `*Ubicación (Maps):* ${mapsLink}`,
+          )
+        }
+
+        if (deliveryDetails.observations)
+          messageParts.push(
+            `*Obs:* _${deliveryDetails.observations}_`,
+          )
+        break
+
+      case 'interior':
+        messageParts.push('*Método:* _Envío al interior_')
+        messageParts.push(
+          `*Cliente:* _${deliveryDetails.name}_`,
+        )
+        if (deliveryDetails.phone)
+          messageParts.push(
+            `*Tel:* _${deliveryDetails.phone}_`,
+          )
+        messageParts.push(
+          `*Ciudad Destino:* _${deliveryDetails.city}_`,
+        )
+        messageParts.push(
+          `*Dirección:* _${deliveryDetails.address}_`,
+        )
+        if (deliveryDetails.urgent)
+          messageParts.push('*(ENVÍO URGENTE)*')
+        break
     }
 
-    const productLines = cart
-      .map(
-        (item) =>
-          `• ${item.name} → ${item.flavors
-            .map((f) => `${f.name} × ${f.quantity}`)
-            .join(', ')} (${item.flavors.reduce(
-            (sum, f) => sum + f.quantity,
-            0,
-          )} u)`,
+    messageParts.push('')
+
+    // --- Products ---
+    messageParts.push('*Productos:*')
+    cart.forEach((item) => {
+      const totalUnits = item.flavors.reduce(
+        (sum, f) => sum + f.quantity,
+        0,
       )
-      .join('\n')
+      const flavorDetails = item.flavors
+        .map((f) => `${f.name} × ${f.quantity}`)
+        .join(', ')
+      messageParts.push(
+        `• _${item.name}_ → ${flavorDetails} *(${totalUnits} u)*`,
+      )
+    })
 
-    const totals = `\n*Subtotal:* _${subtotal} Bs_\n*Cupón:* _-${discount} Bs_\n*Total a pagar:* _${total} Bs_`
-    const footer = `\n*~Adjunto comprobante del QR de ${total} Bs ✅~*`
+    messageParts.push('')
 
-    return encodeURIComponent(
-      header +
-        deliveryInfo +
-        '\n*Productos:*\n' +
-        productLines +
-        '\n' +
-        totals +
-        footer,
+    // --- Totals ---
+    messageParts.push('*Resumen de Pago:*')
+    messageParts.push(
+      `*Subtotal:* ${subtotal.toFixed(2)} Bs`,
     )
+    if (discount > 0) {
+      messageParts.push(
+        `*Cupón:* -${discount.toFixed(2)} Bs`,
+      )
+    }
+    messageParts.push(
+      `*Total a pagar:* *${total.toFixed(2)} Bs*`,
+    )
+
+    messageParts.push('')
+
+    // --- Footer ---
+    messageParts.push(
+      ` ✦  _Adjunto comprobante del QR de ${total.toFixed(
+        2,
+      )} Bs_  ✦ `,
+    )
+
+    // Use the reliable method for encoding newlines
+    const finalMessage = messageParts.join('\n')
+    return finalMessage.replace(/\n/g, '%0A')
   }
 
   const handleTermsLabelClick = (e) => {
