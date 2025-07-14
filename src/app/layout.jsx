@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
       >
         <div className='flex flex-col min-h-screen'>
           <Navbar />
-          <main className='flex-1 pt-18'>{children}</main>
+          <main className='flex-1 pt-22'>{children}</main>
         </div>
         <AgeGateDialog />
         <TermsDialog />
