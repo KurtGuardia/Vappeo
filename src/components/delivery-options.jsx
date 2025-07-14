@@ -111,6 +111,7 @@ export function DeliveryOptions({ venues }) {
               <Input
                 name='phone'
                 placeholder='Teléfono'
+                type='tel'
                 value={deliveryDetails.phone}
                 onChange={handleDetailChange}
               />
@@ -157,8 +158,15 @@ export function DeliveryOptions({ venues }) {
                   onChange={handleDetailChange}
                 />
                 <Input
+                  name='ci'
+                  placeholder='C.I.'
+                  value={deliveryDetails.ci}
+                  onChange={handleDetailChange}
+                />
+                <Input
                   name='phone'
                   placeholder='Teléfono'
+                  type='tel'
                   value={deliveryDetails.phone}
                   onChange={handleDetailChange}
                 />
@@ -172,7 +180,7 @@ export function DeliveryOptions({ venues }) {
               />
 
               <Input
-                name='address'
+                name='addressInterior'
                 placeholder='Dirección completa'
                 value={deliveryDetails.addressInterior}
                 onChange={handleDetailChange}
