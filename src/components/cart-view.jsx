@@ -1,12 +1,30 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { CartItems } from '@/components/cart-items'
 import { CouponInput } from '@/components/coupon-input'
-import { DeliveryOptions } from '@/components/delivery-options'
 import { CartTotals } from '@/components/cart-totals'
 import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
 import { useRouter } from 'next/navigation'
+
+const DeliveryOptions = dynamic(
+  () =>
+    import('@/components/delivery-options').then(
+      (mod) => mod.DeliveryOptions,
+    ),
+  {
+    ssr: false, // This is the crucial part
+    loading: () => (
+      // A loading skeleton that matches the component's approximate size
+      <div className='space-y-6 animate-pulse'>
+        <div className='h-8 w-1/2 bg-gray-800 rounded-md'></div>
+        <div className='h-24 w-full bg-gray-900 rounded-xl'></div>
+        <div className='h-24 w-full bg-gray-900 rounded-xl'></div>
+      </div>
+    ),
+  },
+)
 
 export function CartView({ promos, puntos }) {
   const { cart } = useStore()

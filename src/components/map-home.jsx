@@ -2,7 +2,6 @@
 'use client'
 
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
 import { Marker } from 'react-leaflet'
 import {
   Dialog,
@@ -13,6 +12,7 @@ import {
 import Link from 'next/link'
 import L from 'leaflet'
 import { useStore } from '@/lib/store'
+import { BaseMap } from './base-map'
 
 // This function creates a custom HTML marker with a label
 function createVenueIcon(name) {
@@ -27,14 +27,8 @@ function createVenueIcon(name) {
   })
 }
 
-// Dynamically import the BaseMap to prevent SSR issues
-const BaseMap = dynamic(
-  () => import('./base-map').then((mod) => mod.BaseMap),
-  { ssr: false },
-)
-
 const CITY_CENTERS = {
-  cochabamba: [-17.38, -66.15],
+  cochabamba: [-17.38, -66.18],
   'santa cruz': [-17.78, -63.18],
 }
 
@@ -58,7 +52,7 @@ export function MapHome({ puntosRecojo }) {
           NUESTRAS UBICACIONES
         </h2>
         <div className='glass-effect rounded-2xl overflow-hidden shadow-2xl h-80'>
-          <BaseMap center={mapCenter} zoom={13}>
+          <BaseMap center={mapCenter} zoom={12}>
             {visiblePuntos.map(
               (
                 venue, // Use the filtered list

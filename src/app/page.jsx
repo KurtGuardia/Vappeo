@@ -1,7 +1,6 @@
 import { HeroSection } from '@/components/hero-section'
 import { CitySelector } from '@/components/city-selector'
 import { ProductCatalog } from '@/components/product-catalog'
-import { MapHome } from '@/components/map-home'
 import { SocialMediaSection } from '@/components/social-media-section'
 import { Footer } from '@/components/footer'
 import {
@@ -9,6 +8,7 @@ import {
   sheetsDataToObject,
 } from '@/lib/sheets'
 import { MOCK_DATA } from '@/lib/mock-data'
+import { ClientMapWrapper } from '@/components/client-map-wrapper'
 
 export default async function HomePage() {
   // const data = await getSheetsData(ranges)
@@ -37,7 +37,7 @@ export default async function HomePage() {
           inventario={inventario}
         />
       </div>
-      <MapHome puntosRecojo={puntos} />
+      <ClientMapWrapper puntosRecojo={puntos} />
       <SocialMediaSection />
       <Footer />
     </div>

@@ -48,8 +48,8 @@ export function ProductCatalog({ productos, inventario }) {
                       product.imagen || '/placeholder.svg'
                     }
                     alt={product.nombre}
-                    layout='fill'
-                    objectFit='contain'
+                    fill
+                    style={{ objectFit: 'contain' }}
                   />
                 </div>
                 <div className='flex-1'>

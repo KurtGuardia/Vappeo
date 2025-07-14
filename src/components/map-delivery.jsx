@@ -64,7 +64,7 @@ export function MapDelivery() {
 
   return (
     <div className='h-64 rounded-lg overflow-hidden relative'>
-      <BaseMap center={mapCenter} zoom={13}>
+      <BaseMap center={mapCenter} zoom={12}>
         <MapClickHandler onMapClick={handleMapClick} />
         {pinPosition && (
           <Marker
