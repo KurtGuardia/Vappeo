@@ -21,15 +21,13 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang='es'
-      className={`dark ${bebas.variable}`}
+      className={`${bebas.variable}`}
       suppressHydrationWarning={true}
     >
-      <body
-        className={`${inter.className} bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white min-h-screen`}
-      >
+      <body className={`${inter.className} min-h-screen`}>
         <div className='flex flex-col min-h-screen'>
           <Navbar />
-          <main className='flex-1 pt-22'>{children}</main>
+          <main className='flex-1 pt-18'>{children}</main>
         </div>
         <AgeGateDialog />
         <TermsDialog />

@@ -7,7 +7,7 @@ export function CartTotals() {
     useStore()
 
   return (
-    <div className='space-y-2 p-4 bg-gray-900 rounded-lg'>
+    <div className='space-y-2 p-4 srounded-lg'>
       <div className='flex justify-between'>
         <span>Subtotal:</span>
         <span>Bs. {subtotal}</span>

@@ -137,7 +137,7 @@ export function FlavorDialog({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className='bg-black border-gray-700 max-w-sm mx-auto max-h-[80vh] overflow-y-auto'
+        className='bg-border border-gray-700 max-w-sm mx-auto max-h-[80vh] overflow-y-auto'
       >
         <DialogHeader>
           <DialogTitle className='font-brand text-xl'>

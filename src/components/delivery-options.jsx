@@ -62,7 +62,7 @@ export function DeliveryOptions({ venues }) {
               {availableVenues.map((venue) => (
                 <div
                   key={venue.id}
-                  className='flex items-center space-x-2 ...'
+                  className='flex space-x-2 ...'
                 >
                   <RadioGroupItem
                     value={venue.id}
@@ -70,7 +70,7 @@ export function DeliveryOptions({ venues }) {
                   />
                   <Label
                     htmlFor={venue.id}
-                    className='flex-1 cursor-pointer'
+                    className='flex-1 flex-col items-start cursor-pointer'
                   >
                     <div className='font-medium'>
                       {venue.nombre}
@@ -150,13 +150,13 @@ export function DeliveryOptions({ venues }) {
 
           {deliveryOption === 'interior' && (
             <div className='ml-6 space-y-4'>
+              <Input
+                name='name'
+                placeholder='Nombre completo'
+                value={deliveryDetails.name}
+                onChange={handleDetailChange}
+              />
               <div className='grid grid-cols-2 gap-3'>
-                <Input
-                  name='name'
-                  placeholder='Nombre completo'
-                  value={deliveryDetails.name}
-                  onChange={handleDetailChange}
-                />
                 <Input
                   name='ci'
                   placeholder='C.I.'
@@ -204,10 +204,7 @@ export function DeliveryOptions({ venues }) {
                   onChange={handleDetailChange}
                   className='rounded'
                 />
-                <Label
-                  htmlFor='urgent'
-                  className='text-amber-200'
-                >
+                <Label htmlFor='urgent' className=''>
                   Envío urgente (avión)
                 </Label>
               </div>

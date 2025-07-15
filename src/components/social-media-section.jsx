@@ -43,7 +43,7 @@ export function SocialMediaSection() {
   return (
     <section
       id='social-section'
-      className='px-4 py-12 bg-gradient-to-br from-gray-900 to-black scroll-mt-12'
+      className='px-4 py-12 bg-gradient-to-br from-gray-900 to-black m-0'
     >
       <div className='max-w-sm mx-auto space-y-8'>
         <div className='text-center'>

@@ -56,7 +56,7 @@ export function ProductCatalog({ productos, inventario }) {
                   <h3 className='font-brand text-2xl'>
                     {product.nombre}
                   </h3>
-                  <p className='text-gray-400 text-sm mt-1 mb-4'>
+                  <p className='00 text-sm mt-1 mb-4'>
                     {product.descripcion}
                   </p>
                 </div>

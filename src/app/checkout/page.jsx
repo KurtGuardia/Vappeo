@@ -212,10 +212,10 @@ export default function CheckoutPage() {
 
   return (
     <div className='px-4 space-y-6 pb-24'>
-      <h1 className='text-2xl font-brand'>
+      <h1 className='text-2xl mt-2 font-brand'>
         CONFIRMAR PEDIDO
       </h1>
-      <Card className='bg-gray-900 border-gray-700'>
+      <Card className='border-gray-700 glass-effect'>
         <CardHeader>
           <CardTitle className='font-brand'>
             RESUMEN DEL PEDIDO
@@ -280,6 +280,7 @@ export default function CheckoutPage() {
           id='terms'
           checked={acceptTerms}
           onCheckedChange={setAcceptTerms}
+          className={'bg-gray-900 border-gray-600'}
         />
         <label htmlFor='terms' className='text-sm'>
           Acepto los{' '}

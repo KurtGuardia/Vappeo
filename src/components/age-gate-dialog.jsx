@@ -33,7 +33,7 @@ export function AgeGateDialog() {
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
         showCloseButton={false}
-        className='bg-black border-gray-700 mx-auto'
+        className='bg-border border-gray-700 mx-auto'
       >
         <DialogHeader>
           <DialogTitle className='text-center font-brand text-xl'>
@@ -44,7 +44,7 @@ export function AgeGateDialog() {
           <p className='text-gray-300 font-semibold'>
             ¿Eres mayor de 18 años?
           </p>
-          <p className='text-sm text-gray-400'>
+          <p className='text-sm'>
             Debes ser mayor de edad para acceder a este
             sitio
           </p>

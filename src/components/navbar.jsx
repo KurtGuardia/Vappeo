@@ -5,10 +5,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useStore } from '@/lib/store'
+import { useThemeStore } from '@/lib/ui-store'
+import { ThemeToggle } from './theme-toggle'
 
 export function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
+  const { theme } = useThemeStore()
   const { cart } = useStore()
   const cartItemCount = cart.reduce(
     (sum, item) =>
@@ -19,6 +22,16 @@ export function Navbar() {
       ),
     0,
   )
+
+  const inactiveIconClasses =
+    theme === 'light-sunset'
+      ? 'text-neutral-800 hover:text-black'
+      : 'text-gray-400 hover:text-white'
+
+  const logoSrc =
+    theme === 'light-sunset'
+      ? '/imgs/vappeo_logo_transparent_black.png'
+      : '/imgs/vappeo_logo_transparent.png'
 
   const scrollToSocial = () => {
     if (pathname === '/') {
@@ -37,9 +50,11 @@ export function Navbar() {
 
   return (
     <nav className='fixed top-0 left-0 right-0 z-50 glass-effect px-6 py-4'>
-      <div className='flex items-center justify-between mx-1 md:mx-6 lg:mx-12 mx-auto'>
+      <div className='flex items-center justify-between md:mx-6 lg:mx-12 mx-auto'>
+        <ThemeToggle />
+
         <Image
-          src='/imgs/vappeo_logo_transparent.png'
+          src={logoSrc}
           alt='VAPPEO Logo'
           width={120}
           height={30}
@@ -53,7 +68,7 @@ export function Navbar() {
             className={`flex flex-col items-center space-y-1 transition-colors ${
               pathname === '/'
                 ? 'text-[#C1121F]'
-                : 'text-gray-400 hover:text-white'
+                : inactiveIconClasses
             }`}
           >
             <Home className='h-5 w-5' />
@@ -65,7 +80,7 @@ export function Navbar() {
             className={`flex flex-col items-center space-y-1 transition-colors relative ${
               pathname === '/carrito'
                 ? 'text-[#C1121F]'
-                : 'text-gray-400 hover:text-white'
+                : inactiveIconClasses
             }`}
           >
             <div className='relative'>
@@ -81,7 +96,7 @@ export function Navbar() {
 
           <button
             onClick={scrollToSocial}
-            className='flex flex-col items-center space-y-1 text-gray-400 hover:text-white transition-colors'
+            className={`flex flex-col items-center space-y-1 transition-colors ${inactiveIconClasses}`}
           >
             <Instagram className='h-5 w-5' />
             <span className='text-xs'>Social</span>
