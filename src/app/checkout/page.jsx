@@ -1,12 +1,9 @@
-// src/app/checkout/page.jsx
-
 import {
   getSheetsData,
   sheetsDataToObject,
 } from '@/lib/sheets'
-import { CheckoutView } from '@/components/checkout-view' // Import our new client component
+import { CheckoutView } from '@/components/checkout-view'
 
-// This is a Server Component, so we can make it async
 export default async function CheckoutPage() {
   // 1. Fetch only the data this page needs: Puntos
   const data = await getSheetsData(['Puntos'])
