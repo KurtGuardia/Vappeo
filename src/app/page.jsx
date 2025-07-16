@@ -18,10 +18,14 @@ export default async function HomePage() {
   ]
   const data = await getSheetsData(ranges)
 
-  const productos = sheetsDataToObject(data[0].values)
-  const inventario = sheetsDataToObject(data[1].values)
-  const puntos = sheetsDataToObject(data[2].values)
-  const marketing = sheetsDataToObject(data[4].values)
+  const productos = sheetsDataToObject(data[0]?.values)
+  const inventario = sheetsDataToObject(data[1]?.values)
+  const puntos = sheetsDataToObject(data[2]?.values)
+  const marketing = sheetsDataToObject(data[4]?.values)
+  console.log('Productos:', productos)
+  console.log('Inventario:', inventario)
+  console.log('Puntos de recojo:', puntos)
+  console.log('Marketing:', marketing)
 
   const quote =
     marketing.find((item) => item.id === 'hero_quote')

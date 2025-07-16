@@ -25,8 +25,13 @@ export function Navbar() {
 
   const inactiveIconClasses =
     theme === 'light-sunset'
-      ? 'text-neutral-800 hover:text-black'
+      ? 'text-neutral-800 hover:text-[#C1121F]'
       : 'text-gray-400 hover:text-white'
+
+  const activeIconClasses =
+    theme === 'light-sunset'
+      ? 'text-[#C1121F]'
+      : 'text-destructive'
 
   const logoSrc =
     theme === 'light-sunset'
@@ -67,7 +72,7 @@ export function Navbar() {
             href='/'
             className={`flex flex-col items-center space-y-1 transition-colors ${
               pathname === '/'
-                ? 'text-[#C1121F]'
+                ? activeIconClasses
                 : inactiveIconClasses
             }`}
           >
@@ -79,7 +84,7 @@ export function Navbar() {
             href='/carrito'
             className={`flex flex-col items-center space-y-1 transition-colors relative ${
               pathname === '/carrito'
-                ? 'text-[#C1121F]'
+                ? activeIconClasses
                 : inactiveIconClasses
             }`}
           >

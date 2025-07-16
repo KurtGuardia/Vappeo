@@ -27,7 +27,6 @@ export default function CheckoutPage() {
   const { openTermsModal } = useUiStore()
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [qrSrc, setQrSrc] = useState(`/qrs/qr-${total}.png`)
-  const [isFallbackQr, setIsFallbackQr] = useState(false)
   const [qrMessage, setQrMessage] = useState('')
 
   useEffect(() => {
