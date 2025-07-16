@@ -101,7 +101,6 @@ export function DeliveryOptions({ venues }) {
           </div>
           {deliveryOption === 'delivery' && (
             <div className='ml-6 space-y-4'>
-              {/* Note the `name` attribute matches the store key */}
               <Input
                 name='name'
                 placeholder='Nombre completo'

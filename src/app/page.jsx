@@ -22,10 +22,6 @@ export default async function HomePage() {
   const inventario = sheetsDataToObject(data[1]?.values)
   const puntos = sheetsDataToObject(data[2]?.values)
   const marketing = sheetsDataToObject(data[4]?.values)
-  console.log('Productos:', productos)
-  console.log('Inventario:', inventario)
-  console.log('Puntos de recojo:', puntos)
-  console.log('Marketing:', marketing)
 
   const quote =
     marketing.find((item) => item.id === 'hero_quote')
