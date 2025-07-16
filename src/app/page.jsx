@@ -7,7 +7,6 @@ import {
   getSheetsData,
   sheetsDataToObject,
 } from '@/lib/sheets'
-import { MOCK_DATA } from '@/lib/mock-data'
 import { ClientMapWrapper } from '@/components/client-map-wrapper'
 
 export default async function HomePage() {
@@ -15,20 +14,14 @@ export default async function HomePage() {
     'Productos',
     'Inventario',
     'Puntos',
-    'Promo',
     'Marketing',
   ]
   const data = await getSheetsData(ranges)
-  console.log('Fetched data from Google Sheets:', data)
 
   const productos = sheetsDataToObject(data[0].values)
   const inventario = sheetsDataToObject(data[1].values)
   const puntos = sheetsDataToObject(data[2].values)
   const marketing = sheetsDataToObject(data[4].values)
-  console.log('Productos Maestros:', productos)
-
-  // const { productos, inventario, puntos, marketing } =
-  //   MOCK_DATA
 
   const quote =
     marketing.find((item) => item.id === 'hero_quote')

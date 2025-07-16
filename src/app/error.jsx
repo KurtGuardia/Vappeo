@@ -30,7 +30,6 @@ export default function Error({ error, reset }) {
           </p>
         </div>
 
-        {/* For developers, show the error message in development mode */}
         {
           <pre className='text-left text-xs bg-gray-800 p-4 rounded-md overflow-x-auto text-red-300'>
             {error?.message}
