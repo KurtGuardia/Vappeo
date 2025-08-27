@@ -28,7 +28,7 @@ export const useStore = create()(
 
       changeCityAndClearCart: (city) => {
         set({
-          selectedCity: city.toLowerCase(),
+          selectedCity: city?.toLowerCase() || '',
           cart: [],
           coupon: null,
         })

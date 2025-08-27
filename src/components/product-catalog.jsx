@@ -14,8 +14,8 @@ export function ProductCatalog({ productos, inventario }) {
   const availableProducts = productos.filter((p) =>
     inventario.some(
       (inv) =>
-        inv.producto_id === p.id &&
-        inv.ciudad.toLowerCase() === selectedCity,
+        inv?.producto_id === p.id &&
+        inv?.ciudad?.toLowerCase() === selectedCity,
     ),
   )
 
@@ -28,8 +28,8 @@ export function ProductCatalog({ productos, inventario }) {
         {availableProducts.map((product) => {
           const cityInventoryItem = inventario.find(
             (inv) =>
-              inv.producto_id === product.id &&
-              inv.ciudad.toLowerCase() === selectedCity,
+              inv?.producto_id === product.id &&
+              inv?.ciudad?.toLowerCase() === selectedCity,
           )
           // Fallback price if somehow not found, though your filter logic prevents this.
           const price = cityInventoryItem
@@ -84,8 +84,8 @@ export function ProductCatalog({ productos, inventario }) {
           product={selectedProduct}
           inventario={inventario.filter(
             (inv) =>
-              inv.producto_id === selectedProduct.id &&
-              inv.ciudad.toLowerCase() === selectedCity,
+              inv?.producto_id === selectedProduct.id &&
+              inv?.ciudad?.toLowerCase() === selectedCity,
           )}
           open={!!selectedProduct}
           onClose={() => setSelectedProduct(null)}

@@ -1,4 +1,5 @@
 import 'server-only'
+import { unstable_noStore as noStore } from 'next/cache'
 import { google } from 'googleapis'
 
 function getGoogleSheetsClient() {
@@ -33,6 +34,8 @@ export async function getSheetsData(ranges) {
         'GOOGLE_SHEET_ID environment variable not set.',
       )
     }
+
+    noStore()
 
     const response =
       await sheets.spreadsheets.values.batchGet({

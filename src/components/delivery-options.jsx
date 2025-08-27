@@ -22,7 +22,7 @@ export function DeliveryOptions({ venues }) {
   } = useStore()
 
   const availableVenues = venues.filter(
-    (v) => v.ciudad.toLowerCase() === selectedCity,
+    (v) => v?.ciudad?.toLowerCase() === selectedCity,
   )
 
   const handleDetailChange = (e) => {

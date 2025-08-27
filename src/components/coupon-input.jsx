@@ -1,6 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import {
+  parseISO,
+  isValid,
+  isAfter,
+  startOfToday,
+} from 'date-fns'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
@@ -16,7 +22,7 @@ function isCouponActive(promo) {
     return false
   }
 
-  const status = promo.activo.trim()
+  const status = promo.activo?.trim() || ''
 
   // Case 1: Coupon is explicitly active
   if (status.toLowerCase() === 'si') {
@@ -25,12 +31,16 @@ function isCouponActive(promo) {
 
   // Case 2: Check if the status is a valid date
   if (/^\d{4}-\d{2}-\d{2}$/.test(status)) {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0) // Set to midnight to avoid time-related issues
+    const expirationDate = parseISO(status)
 
-    const expirationDate = new Date(status)
-    // The coupon is valid if today is on or before the expiration date.
-    return today <= expirationDate
+    if (!isValid(expirationDate)) return false
+
+    // A coupon is valid if its expiration date is today or any time after today.
+    return (
+      isAfter(expirationDate, startOfToday()) ||
+      expirationDate.toDateString() ===
+        new Date().toDateString()
+    )
   }
 
   // Case 3: Any other value ("No", empty, etc.) is considered inactive
@@ -67,8 +77,8 @@ export function CouponInput({ promos }) {
     const invalidCodes = []
 
     uniqueCodes.forEach((code) => {
-      const promo = promos.find(
-        (p) => p.codigo.toUpperCase() === code,
+      const promo = promos?.find(
+        (p) => p.codigo?.toUpperCase() === code,
       )
 
       // FIX 2: Use our new validation function

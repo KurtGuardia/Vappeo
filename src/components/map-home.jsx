@@ -42,7 +42,7 @@ export function MapHome({ puntosRecojo }) {
   ]
 
   const visiblePuntos = puntosRecojo.filter(
-    (p) => p.ciudad.toLowerCase() === selectedCity,
+    (p) => p?.ciudad?.toLowerCase() === selectedCity,
   )
 
   return (
