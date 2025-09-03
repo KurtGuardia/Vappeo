@@ -1,6 +1,11 @@
 'use client'
 
-import { Home, ShoppingCart, Instagram } from 'lucide-react'
+import {
+  Home,
+  ShoppingCart,
+  Instagram,
+  Flame,
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -31,25 +36,34 @@ export function Navbar() {
   const activeIconClasses =
     theme === 'light-sunset'
       ? 'text-[#C1121F]'
-      : 'text-destructive'
+      : 'text-white'
 
   const logoSrc =
     theme === 'light-sunset'
       ? '/imgs/vappeo_logo_transparent_black.png'
       : '/imgs/vappeo_logo_transparent.png'
 
-  const scrollToSocial = () => {
+  const handleScrollToSection = (sectionId) => {
     if (pathname === '/') {
       // If on the homepage, scroll smoothly to the section.
-      document
-        .getElementById('social-section')
-        ?.scrollIntoView({
+      const element = document.getElementById(sectionId)
+      if (element) {
+        const navbarHeight = 80 // Offset in pixels to account for the fixed navbar
+        const elementPosition =
+          element.getBoundingClientRect().top
+        const offsetPosition =
+          elementPosition +
+          window.pageYOffset -
+          navbarHeight
+
+        window.scrollTo({
+          top: offsetPosition,
           behavior: 'smooth',
         })
+      }
     } else {
       // If on another page, navigate to the homepage with the hash.
-      // The browser will handle scrolling to the element after navigation.
-      router.push('/#social-section')
+      router.push(`/#${sectionId}`)
     }
   }
 
@@ -80,6 +94,14 @@ export function Navbar() {
             <span className='text-xs'>Inicio</span>
           </Link>
 
+          <button
+            onClick={() => handleScrollToSection('catalog')}
+            className={`flex flex-col items-center space-y-1 transition-colors ${inactiveIconClasses}`}
+          >
+            <Flame className='h-5 w-5' />
+            <span className='text-xs'>Catálogo</span>
+          </button>
+
           <Link
             href='/carrito'
             className={`flex flex-col items-center space-y-1 transition-colors relative ${
@@ -100,7 +122,9 @@ export function Navbar() {
           </Link>
 
           <button
-            onClick={scrollToSocial}
+            onClick={() =>
+              handleScrollToSection('social-section')
+            }
             className={`flex flex-col items-center space-y-1 transition-colors ${inactiveIconClasses}`}
           >
             <Instagram className='h-5 w-5' />
