@@ -13,6 +13,11 @@ import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
 import { useUiStore } from '@/lib/ui-store'
 
+// Define the totals that have a pre-generated QR code.
+const validQrTotals = [
+  105, 109, 169, 179, 269, 279, 309, 329,
+]
+
 export function CheckoutView({ puntos }) {
   const {
     cart,
@@ -26,24 +31,31 @@ export function CheckoutView({ puntos }) {
   } = useStore()
   const { openTermsModal } = useUiStore()
   const [acceptTerms, setAcceptTerms] = useState(false)
-  const [qrSrc, setQrSrc] = useState(`/qrs/qr-${total}.png`)
   const [qrMessage, setQrMessage] = useState('')
+  const [qrSrc, setQrSrc] = useState(
+    `/imgs/QRs/qr-${total}.jpeg`,
+  )
 
   useEffect(() => {
+    // Case 1: Special handling for "Envío al Interior"
     if (deliveryOption === 'interior') {
-      // Logic for "Envío al Interior"
-      setQrSrc('/qrs/qr-abierto.png')
+      setQrSrc('/imgs/QRs/qr-abierto.jpeg')
       setQrMessage(
-        'Se necesita coordinar via WhatsApp para el envío. Luego usar este QR abierto:',
+        'Se necesita coordinar via WhatsApp para el envío al interior. Luego usar este QR abierto:',
       )
+      // Case 2: All other delivery types
+    } else if (validQrTotals.includes(total)) {
+      // If the total has a specific QR, use it.
+      setQrSrc(`/imgs/QRs/qr-${total}.jpeg`)
+      setQrMessage(
+        'Utilice este QR para hacer el pago y envíenos el comprobante por Whatsapp con el botón de abajo',
+      ) // No special message needed
     } else {
-      // Logic for all other delivery types
-      setQrSrc(`/qrs/qr-${total}.png`)
-      // Check for fallback QR for standard orders
-      // Note: we can't use onError here because the initial src might be the fallback
-      // This logic assumes you have a way to know if qr-${total}.png exists.
-      // For now, we'll reset the message.
-      setQrMessage('')
+      // Fallback for any other total: use the open QR and provide instructions.
+      setQrSrc('/imgs/QRs/qr-abierto.jpeg')
+      setQrMessage(
+        'Su total no tiene un QR específico. Utilice este QR abierto y pague el monto exacto, luego envíenos el comprobante por Whatsapp con el botón de abajo',
+      )
     }
   }, [total, deliveryOption])
 

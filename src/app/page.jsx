@@ -19,7 +19,6 @@ export default async function HomePage() {
     'Marketing',
   ]
   const data = await getSheetsData(ranges)
-  console.log('Fetched data from Google Sheets:', data)
   const productos = sheetsDataToObject(data[0]?.values)
   const inventario = sheetsDataToObject(data[1]?.values)
   const puntos = sheetsDataToObject(data[2]?.values)

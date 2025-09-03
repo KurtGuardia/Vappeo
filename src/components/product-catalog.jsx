@@ -32,9 +32,9 @@ export function ProductCatalog({ productos, inventario }) {
               inv?.ciudad?.toLowerCase() === selectedCity,
           )
           // Fallback price if somehow not found, though your filter logic prevents this.
-          const price = cityInventoryItem
+          const price = cityInventoryItem.precio
             ? cityInventoryItem.precio
-            : 'N/A'
+            : '[consultar]'
 
           return (
             <Card
