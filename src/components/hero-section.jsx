@@ -20,11 +20,11 @@ export function HeroSection({ quote }) {
         className='h-24 md:h-36 lg:h-44 w-auto -mt-10'
         priority
       />
-      <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4 w-full'>
+      {/* <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4 w-full'>
         <div className='marquee whitespace-nowrap text-white font-semibold text-lg bg-black/30 backdrop-blur-sm rounded-full py-3 px-6 w-fit'>
           🎉 {quote} 🎉
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

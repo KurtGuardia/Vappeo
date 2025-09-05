@@ -26,6 +26,9 @@ export default function RootLayout({ children }) {
     >
       <body className={`${inter.className} min-h-screen`}>
         <div className='flex flex-col min-h-screen'>
+          <div className='flex h-8 items-center justify-center bg-blue-950 text-center tracking-widest text-white z-[100]'>
+            Envíos a todo el país ✈️
+          </div>
           <Navbar />
           <main className='flex-1 pt-18'>{children}</main>
         </div>
