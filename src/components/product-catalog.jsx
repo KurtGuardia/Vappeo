@@ -26,20 +26,20 @@ export function ProductCatalog({ productos, inventario }) {
       </h2>
       <div className='flex justify-center flex-wrap gap-12'>
         {availableProducts.map((product) => {
-          const cityInventoryItem = inventario.find(
-            (inv) =>
-              inv?.producto_id === product.id &&
-              inv?.ciudad?.toLowerCase() === selectedCity,
-          )
-          // Fallback price if somehow not found, though your filter logic prevents this.
-          const price = cityInventoryItem.precio
-            ? cityInventoryItem.precio
-            : '[consultar]'
+          // const cityInventoryItem = inventario.find(
+          //   (inv) =>
+          //     inv?.producto_id === product.id &&
+          //     inv?.ciudad?.toLowerCase() === selectedCity,
+          // )
+          // // Fallback price if somehow not found, though your filter logic prevents this.
+          // const price = cityInventoryItem.precio
+          //   ? cityInventoryItem.precio
+          //   : '[consultar]'
 
           return (
             <Card
               key={product.id}
-              className='glass-effect rounded-2xl overflow-hidden flex flex-col'
+              className='glass-effect rounded-2xl overflow-hidden flex flex-col w-1/5'
             >
               <CardContent className='p-6 flex flex-col flex-1 items-center text-center'>
                 <div className='relative w-32 h-32 mb-4'>
@@ -60,14 +60,12 @@ export function ProductCatalog({ productos, inventario }) {
                     {product.descripcion}
                   </p>
                 </div>
-                <div className='text-3xl font-bold text-[#C1121F] mb-4'>
-                  Bs. {price}
-                </div>
+
                 <Button
                   onClick={() =>
                     setSelectedProduct({
                       ...product,
-                      price: parseFloat(price),
+                      // price: parseFloat(price),
                     })
                   }
                   className='w-full bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold'

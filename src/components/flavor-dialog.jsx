@@ -73,7 +73,7 @@ export function FlavorDialog({
       setCartItem({
         id: product.id,
         name: product.nombre,
-        price: product.price,
+        price: inventario[0]?.precio,
         flavors: selectedFlavors,
       })
       onClose()
@@ -139,10 +139,15 @@ export function FlavorDialog({
         onOpenAutoFocus={(e) => e.preventDefault()}
         className='bg-border border-gray-700 max-w-sm mx-auto max-h-[80vh] overflow-y-auto'
       >
-        <DialogHeader>
-          <DialogTitle className='font-brand text-xl'>
+        <DialogHeader className='text-center space-y-2'>
+          <DialogTitle className='font-brand text-2xl'>
             {product.nombre} - SABORES
           </DialogTitle>
+          {inventario && inventario.length > 0 && (
+            <p className='text-3xl font-bold text-amber-400 !mt-1'>
+              Bs. {inventario[0].precio}
+            </p>
+          )}
         </DialogHeader>
 
         <div className='space-y-4'>
