@@ -1,42 +1,38 @@
 'use client'
 
 import {
-  Instagram,
-  Facebook,
-  TwitterIcon as TikTok,
-  Youtube,
-} from 'lucide-react'
+  SiInstagram,
+  SiFacebook,
+  SiTiktok,
+  SiWhatsapp,
+} from 'react-icons/si'
 import Link from 'next/link'
 
 export function SocialMediaSection() {
   const socialLinks = [
     {
       name: 'Instagram',
-      icon: Instagram,
-      url: 'https://instagram.com/vappeo',
+      icon: SiInstagram,
+      url: 'https://www.instagram.com/vappeo.bo',
       color: 'from-purple-600 to-pink-600',
-      followers: '15.2K',
     },
     {
-      name: 'TikTok',
-      icon: TikTok,
-      url: 'https://tiktok.com/@vappeo',
-      color: 'from-black to-red-600',
-      followers: '8.7K',
+      name: 'WhatsApp',
+      icon: SiWhatsapp,
+      url: 'http://wa.me/59178008773?text=Hola%20Vappeo,%20contacto%20para%20lo%20siguiente:',
+      color: 'from-green-600 to-green-800',
     },
     {
       name: 'Facebook',
-      icon: Facebook,
-      url: 'https://facebook.com/vappeo',
+      icon: SiFacebook,
+      url: 'https://www.facebook.com/share/19QJArTgwa/?mibextid=wwXIfr',
       color: 'from-blue-600 to-blue-800',
-      followers: '12.1K',
     },
     {
-      name: 'YouTube',
-      icon: Youtube,
-      url: 'https://youtube.com/@vappeo',
-      color: 'from-red-600 to-red-800',
-      followers: '3.2K',
+      name: 'TikTok',
+      icon: SiTiktok,
+      url: 'https://www.tiktok.com/@vappeo',
+      color: 'from-black to-red-600',
     },
   ]
 

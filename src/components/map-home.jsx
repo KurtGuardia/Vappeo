@@ -48,7 +48,10 @@ export function MapHome({ puntosRecojo }) {
   return (
     <div className='m-4 md:m-32'>
       <div className='max-w-sm md:max-w-lg lg:max-w-xl mx-auto space-y-6'>
-        <h2 className='text-2xl font-brand text-center ...'>
+        <h2 className='relative text-2xl font-brand text-center line-through'>
+          <span className='absolute -rotate-[22deg] text-red-600 text-2xl -top-3 -left-4'>
+            PRÓXIMAMENTE
+          </span>{' '}
           NUESTRAS UBICACIONES
         </h2>
         <div className='glass-effect rounded-2xl overflow-hidden shadow-2xl h-80'>
@@ -89,7 +92,7 @@ export function MapHome({ puntosRecojo }) {
           <div className='space-y-3 text-white'>
             <p>
               <strong>Dirección:</strong>{' '}
-              {selectedVenue?.direccion}
+              {selectedVenue?.direccion} -- ejemplo
             </p>
             <p>
               <strong>Horario:</strong>{' '}
