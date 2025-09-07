@@ -39,7 +39,7 @@ export function ProductCatalog({ productos, inventario }) {
           return (
             <Card
               key={product.id}
-              className='glass-effect rounded-2xl overflow-hidden flex flex-col w-1/5'
+              className='glass-effect rounded-2xl overflow-hidden flex flex-col w-1/4'
             >
               <CardContent className='p-6 flex flex-col flex-1 items-center text-center'>
                 <div className='relative w-32 h-32 mb-4'>
@@ -58,6 +58,24 @@ export function ProductCatalog({ productos, inventario }) {
                   </h3>
                   <p className='00 text-sm mt-1 mb-4'>
                     {product.descripcion}
+                  </p>
+                  <h4 className='pb-3 font-bold underline'>
+                    Especificaciones:
+                  </h4>
+                  {product.specs && (
+                    <ul className='text-sm list-disc list-inside mb-4 text-left'>
+                      {product.specs
+                        .split(',')
+                        .map((spec, index) => (
+                          <li key={index}>{spec.trim()}</li>
+                        ))}
+                    </ul>
+                  )}
+                  <h4 className='pb-3 font-bold underline'>
+                    Incluye:
+                  </h4>
+                  <p className='00 text-sm mt-1 mb-4'>
+                    {product.pack}
                   </p>
                 </div>
 

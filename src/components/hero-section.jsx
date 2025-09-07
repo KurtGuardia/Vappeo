@@ -9,7 +9,7 @@ export function HeroSection({ quote }) {
 
   return (
     <div
-      className='relative h-80 md:h-96 lg:h-[28rem] bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-center overflow-hidden'
+      className='relative h-80 md:h-96 lg:h-[28rem] bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-end gap-28 overflow-hidden'
       style={gradientStyle}
     >
       <Image
@@ -20,11 +20,9 @@ export function HeroSection({ quote }) {
         className='h-24 md:h-36 lg:h-44 w-auto -mt-10'
         priority
       />
-      {/* <div className='absolute bottom-8 left-0 right-0 overflow-hidden px-4 w-full'>
-        <div className='marquee whitespace-nowrap text-white font-semibold text-lg bg-black/30 backdrop-blur-sm rounded-full py-3 px-6 w-fit'>
-          🎉 {quote} 🎉
-        </div>
-      </div> */}
+      <div className=' whitespace-nowrap text-white font-semibold text-lg bg-black/30 backdrop-blur-sm rounded-full py-3 px-6 mb-5 w-fit'>
+        🎉 {quote} 🎉
+      </div>
     </div>
   )
 }
