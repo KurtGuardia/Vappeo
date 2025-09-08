@@ -42,49 +42,6 @@ export function DeliveryOptions({ venues }) {
         onValueChange={setDeliveryOption}
         className='space-y-4'
       >
-        {/* --- PICKUP OPTION --- */}
-        <div className='glass-effect p-4 rounded-xl'>
-          <div className='flex items-center space-x-3 mb-3'>
-            <RadioGroupItem value='pickup' id='pickup' />
-            <Label
-              htmlFor='pickup'
-              className='text-lg font-semibold'
-            >
-              Recoger en tienda
-            </Label>
-          </div>
-          {deliveryOption === 'pickup' && (
-            <RadioGroup
-              value={pickupPointId}
-              onValueChange={setPickupPoint}
-              className='ml-6 space-y-3'
-            >
-              {availableVenues.map((venue) => (
-                <div
-                  key={venue.id}
-                  className='flex space-x-2 ...'
-                >
-                  <RadioGroupItem
-                    value={venue.id}
-                    id={venue.id}
-                  />
-                  <Label
-                    htmlFor={venue.id}
-                    className='flex-1 flex-col items-start cursor-pointer'
-                  >
-                    <div className='font-medium'>
-                      {venue.nombre}
-                    </div>
-                    <div className='text-sm text-gray-400'>
-                      {venue.direccion}
-                    </div>
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          )}
-        </div>
-
         {/* --- DELIVERY OPTION --- */}
         <div className='glass-effect p-4 rounded-xl'>
           <div className='flex items-center space-x-3 mb-3'>
@@ -131,8 +88,54 @@ export function DeliveryOptions({ venues }) {
           )}
         </div>
 
-        {/* --- INTERIOR OPTION --- */}
+        {/* --- PICKUP OPTION --- */}
+        <div className='glass-effect p-4 rounded-xl'>
+          <div className='relative flex items-center space-x-3 mb-3'>
+            <RadioGroupItem value='pickup' id='pickup' />
+            <Label
+              htmlFor='pickup'
+              className='text-lg font-semibold'
+            >
+              Recoger en tienda
+            </Label>
+            <span className='absolute -rotate-[22deg] text-red-600 text-2xl -top-3 -left-4'>
+              PRÓXIMAMENTE
+            </span>
+          </div>
+          {deliveryOption === 'pickup' && (
+            <RadioGroup
+              value={pickupPointId}
+              onValueChange={setPickupPoint}
+              className='ml-6 space-y-3'
+            >
+              {availableVenues.map((venue) => (
+                <div
+                  key={venue.id}
+                  className='flex space-x-2 ...'
+                >
+                  <RadioGroupItem
+                    value={venue.id}
+                    id={venue.id}
+                    disabled
+                  />
+                  <Label
+                    htmlFor={venue.id}
+                    className='flex-1 flex-col items-start cursor-pointer'
+                  >
+                    <div className='font-medium'>
+                      {venue.nombre}
+                    </div>
+                    <div className='text-sm text-gray-400'>
+                      {venue.direccion}
+                    </div>
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+        </div>
 
+        {/* --- INTERIOR OPTION --- */}
         <div className='glass-effect p-4 rounded-xl'>
           <div className='flex items-center space-x-3 mb-3'>
             <RadioGroupItem

@@ -8,10 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
-import { useUiStore } from '@/lib/ui-store'
 
 // Define the totals that have a pre-generated QR code.
 const validQrTotals = [
@@ -29,8 +27,6 @@ export function CheckoutView({ puntos }) {
     pickupPointId,
     deliveryDetails,
   } = useStore()
-  const { openTermsModal } = useUiStore()
-  const [acceptTerms, setAcceptTerms] = useState(false)
   const [qrMessage, setQrMessage] = useState('')
   const [qrSrc, setQrSrc] = useState(
     `/imgs/QRs/qr-${total}.jpeg`,
@@ -213,12 +209,6 @@ export function CheckoutView({ puntos }) {
     return finalMessage.replace(/\n/g, '%0A')
   }
 
-  const handleTermsLabelClick = (e) => {
-    // This allows the checkbox to still be toggled, but also opens the modal.
-    // It's a better UX than preventing the default action.
-    openTermsModal()
-  }
-
   return (
     <div className='px-4 space-y-6 pb-24'>
       <h1 className='text-2xl mt-2 font-brand'>
@@ -284,26 +274,8 @@ export function CheckoutView({ puntos }) {
         </div>
       </div>
 
-      <div className='flex items-center space-x-2'>
-        <Checkbox
-          id='terms'
-          checked={acceptTerms}
-          onCheckedChange={setAcceptTerms}
-          className={'bg-gray-900 border-gray-600'}
-        />
-        <label htmlFor='terms' className='text-sm'>
-          Acepto los{' '}
-          <span
-            onClick={handleTermsLabelClick}
-            className='underline text-[#C1121F] cursor-pointer'
-          >
-            Términos y Condiciones
-          </span>
-        </label>
-      </div>
       <Button
         className='w-full bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold'
-        disabled={!acceptTerms}
         onClick={() => {
           window.open(
             `https://wa.me/${
