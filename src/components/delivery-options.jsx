@@ -91,14 +91,18 @@ export function DeliveryOptions({ venues }) {
         {/* --- PICKUP OPTION --- */}
         <div className='glass-effect p-4 rounded-xl'>
           <div className='relative flex items-center space-x-3 mb-3'>
-            <RadioGroupItem value='pickup' id='pickup' />
+            <RadioGroupItem
+              value='pickup'
+              id='pickup'
+              disabled
+            />
             <Label
               htmlFor='pickup'
               className='text-lg font-semibold'
             >
               Recoger en tienda
             </Label>
-            <span className='absolute -rotate-[22deg] text-red-600 text-2xl -top-3 -left-4'>
+            <span className='absolute text-red-600 text-2xl -top-5 -left-2'>
               PRÓXIMAMENTE
             </span>
           </div>

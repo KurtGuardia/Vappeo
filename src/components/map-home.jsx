@@ -48,33 +48,29 @@ export function MapHome({ puntosRecojo }) {
   return (
     <div className='m-4 md:m-32'>
       <div className='max-w-sm md:max-w-lg lg:max-w-xl mx-auto space-y-6'>
-        <h2 className='relative text-2xl font-brand text-center line-through'>
-          <span className='absolute -rotate-[22deg] text-red-600 text-2xl -top-3 -left-4'>
+        <h2 className='relative text-2xl font-brand text-center'>
+          <span className='absolute text-red-600 text-2xl -top-4 -left-2'>
             PRÓXIMAMENTE
           </span>{' '}
           NUESTRAS UBICACIONES
         </h2>
         <div className='glass-effect rounded-2xl overflow-hidden shadow-2xl h-80'>
           <BaseMap center={mapCenter} zoom={12}>
-            {visiblePuntos.map(
-              (
-                venue, // Use the filtered list
-              ) => (
-                <Marker
-                  key={venue.id}
-                  position={[
-                    parseFloat(venue.lat),
-                    parseFloat(venue.lng),
-                  ]}
-                  icon={createVenueIcon(venue.nombre)}
-                  eventHandlers={{
-                    click: () => {
-                      setSelectedVenue(venue)
-                    },
-                  }}
-                />
-              ),
-            )}
+            {visiblePuntos.map((venue) => (
+              <Marker
+                key={venue.id}
+                position={[
+                  parseFloat(venue.lat),
+                  parseFloat(venue.lng),
+                ]}
+                icon={createVenueIcon(venue.nombre)}
+                eventHandlers={{
+                  click: () => {
+                    setSelectedVenue(venue)
+                  },
+                }}
+              />
+            ))}
           </BaseMap>
         </div>
       </div>

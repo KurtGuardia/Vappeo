@@ -7,7 +7,7 @@ export const useStore = create()(
     (set, get) => ({
       selectedCity: 'cochabamba',
       cart: [],
-      deliveryOption: 'pickup',
+      deliveryOption: 'delivery',
       appliedCoupons: [],
       subtotal: 0,
       discount: 0,
