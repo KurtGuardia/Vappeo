@@ -39,7 +39,7 @@ export function ProductCatalog({ productos, inventario }) {
           return (
             <Card
               key={product.id}
-              className='glass-effect rounded-2xl overflow-hidden flex flex-col w-1/4'
+              className='glass-effect rounded-2xl overflow-hidden flex flex-col w-ful md:w-1/4'
             >
               <CardContent className='p-6 flex flex-col flex-1 items-center text-center'>
                 <div className='relative w-32 h-32 mb-4'>
