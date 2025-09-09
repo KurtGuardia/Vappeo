@@ -64,11 +64,11 @@ export function MapHome({ puntosRecojo }) {
                   parseFloat(venue.lng),
                 ]}
                 icon={createVenueIcon(venue.nombre)}
-                eventHandlers={{
-                  click: () => {
-                    setSelectedVenue(venue)
-                  },
-                }}
+                // eventHandlers={{
+                //   click: () => {
+                //     setSelectedVenue(venue)
+                //   },
+                // }}
               />
             ))}
           </BaseMap>
