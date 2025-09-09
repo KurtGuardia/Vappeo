@@ -7,6 +7,7 @@ import {
   useMap,
 } from 'react-leaflet'
 import { useEffect } from 'react'
+import { useThemeStore } from '@/lib/ui-store'
 
 // 1. This is the new, crucial helper component.
 // It gets access to the map instance and imperatively updates its view.
@@ -23,8 +24,12 @@ function ChangeView({ center, zoom }) {
 
 // 3. This is our main BaseMap component.
 export function BaseMap({ center, zoom, children }) {
+  const { theme } = useThemeStore()
   const mapboxAccessToken =
     process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+
+  const mapStyle =
+    theme === 'dark' ? 'dark-v11' : 'light-v11'
 
   return (
     <MapContainer
@@ -34,7 +39,8 @@ export function BaseMap({ center, zoom, children }) {
       className='h-full w-full'
     >
       <TileLayer
-        url={`https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`}
+        key={theme}
+        url={`https://api.mapbox.com/styles/v1/mapbox/${mapStyle}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`}
         attribution='© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
 
