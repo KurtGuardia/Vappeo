@@ -2,7 +2,7 @@ import { Inter, Bebas_Neue } from 'next/font/google'
 import './globals.css'
 import 'leaflet/dist/leaflet.css'
 import { Navbar } from '@/components/navbar'
-import { AgeGateDialog } from '@/components/age-gate-dialog'
+import { GateDialog } from '@/components/gate-dialog'
 import { TermsDialog } from '@/components/terms-dialog'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main className='flex-1 pt-18'>{children}</main>
         </div>
-        <AgeGateDialog />
+        <GateDialog />
         <TermsDialog />
       </body>
     </html>

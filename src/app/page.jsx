@@ -1,5 +1,4 @@
 import { HeroSection } from '@/components/hero-section'
-import { CitySelector } from '@/components/city-selector'
 import { ProductCatalog } from '@/components/product-catalog'
 import { SocialMediaSection } from '@/components/social-media-section'
 import { Footer } from '@/components/footer'
@@ -33,7 +32,6 @@ export default async function HomePage() {
     <div className='space-y-12'>
       <HeroSection quote={quote} />
       <div className='space-y-20 mx-auto'>
-        <CitySelector />
         <ProductCatalog
           productos={productos}
           inventario={inventario}
