@@ -7,8 +7,11 @@ import {
   SiWhatsapp,
 } from 'react-icons/si'
 import Link from 'next/link'
+import { useThemeStore } from '@/lib/ui-store'
 
 export function SocialMediaSection() {
+  const { theme } = useThemeStore()
+
   const socialLinks = [
     {
       name: 'Instagram',
@@ -39,14 +42,18 @@ export function SocialMediaSection() {
   return (
     <section
       id='social-section'
-      className='px-4 py-12 bg-gradient-to-br from-gray-900 to-black m-0'
+      className={`px-4 py-12 bg-gradient-to-br m-0 ${
+        theme === 'dark'
+          ? 'from-gray-900 to-black'
+          : 'from-amber-600 to-yellow-500'
+      }`}
     >
       <div className='max-w-sm mx-auto space-y-8'>
         <div className='text-center'>
           <h2 className='text-3xl font-brand mb-4 bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'>
             SÍGUENOS
           </h2>
-          <p className='text-gray-400'>
+          <p className=''>
             Únete a nuestra comunidad vaper
           </p>
         </div>
@@ -69,9 +76,6 @@ export function SocialMediaSection() {
                   <div className='font-semibold text-white'>
                     {social.name}
                   </div>
-                  <div className='text-sm text-gray-400'>
-                    {social.followers}
-                  </div>
                 </div>
               </div>
             </Link>
@@ -82,7 +86,7 @@ export function SocialMediaSection() {
           <h3 className='font-brand text-xl mb-2 text-[#C1121F]'>
             ¡COMPARTE TU EXPERIENCIA!
           </h3>
-          <p className='text-gray-400 text-sm'>
+          <p className='text-sm'>
             Usa #VappeoExperience y aparece en nuestras
             historias
           </p>

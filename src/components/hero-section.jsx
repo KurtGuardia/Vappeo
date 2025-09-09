@@ -1,15 +1,25 @@
 'use client'
 import Image from 'next/image'
+import { useThemeStore } from '@/lib/ui-store'
 
 export function HeroSection({ quote }) {
+  const { theme } = useThemeStore()
+
   const gradientStyle = {
     background:
-      'linear-gradient(315deg, #000 20%, #b30000 100%)',
+      theme === 'dark'
+        ? 'linear-gradient(315deg, #000 20%, #b30000 100%)'
+        : 'linear-gradient(135deg, #ffe895, #c86400)',
   }
+
+  const quoteClasses =
+    theme === 'dark'
+      ? 'text-white bg-black/30'
+      : 'text-neutral-800 bg-white/30'
 
   return (
     <div
-      className='relative h-80 md:h-96 lg:h-[28rem] bg-gradient-to-br from-[#8B0000] via-[#C1121F] to-[#290000] flex flex-col items-center justify-end gap-28 overflow-hidden'
+      className='relative h-80 md:h-96 lg:h-[28rem] flex flex-col items-center justify-end gap-28 overflow-hidden'
       style={gradientStyle}
     >
       <Image
@@ -20,7 +30,9 @@ export function HeroSection({ quote }) {
         className='h-24 md:h-36 lg:h-44 w-auto -mt-10'
         priority
       />
-      <div className=' whitespace-nowrap text-white font-semibold text-lg bg-black/30 backdrop-blur-sm rounded-full py-3 px-6 mb-5 w-fit'>
+      <div
+        className={`max-w-[calc(100%-2rem)] text-center font-semibold text-lg backdrop-blur-sm rounded-full py-3 px-6 mb-5 w-fit ${quoteClasses}`}
+      >
         🎉 {quote} 🎉
       </div>
     </div>
