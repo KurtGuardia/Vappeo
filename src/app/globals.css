@@ -109,19 +109,34 @@
     );
   }
 
-  .theme-toggle-sun,
+  /* --- Theme Toggle Icon Animation --- */
+
+  /* Dark Mode (default state) */
+  .theme-toggle-sun {
+    /* Left, bigger, yellow */
+    transform: translateX(-10px) scale(1.5);
+    color: var(--color-yellow-500);
+    opacity: 1;
+  }
   .theme-toggle-moon {
-    transform: rotate(90deg) scale(0); /* Default state: rotated and hidden */
+    /* Right, smaller, gray */
+    transform: translateX(15px) scale(0.9);
+    color: var(--color-gray-500);
+    /* opacity: 0.6; */
   }
 
-  /* Your existing rule for making the Sun visible in dark mode */
-  html[data-theme='dark'] .theme-toggle-sun {
-    transform: rotate(0) scale(1);
+  /* Light Mode */
+  html[data-theme='light-sunset'] .theme-toggle-sun {
+    /* Right, smaller, gray */
+    transform: translateX(10px) scale(0.9);
+    color: var(--color-gray-500);
+    /* opacity: 0.6; */
   }
-
-  /* Your existing rule for making the Moon visible in light mode */
   html[data-theme='light-sunset'] .theme-toggle-moon {
-    transform: rotate(0) scale(1);
+    /* Left, bigger, black */
+    transform: translateX(-15px) scale(1.5);
+    color: var(--color-neutral-800);
+    opacity: 1;
   }
 
   /* Base body styling that applies to all themes */
