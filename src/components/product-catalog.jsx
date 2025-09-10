@@ -21,7 +21,7 @@ export function ProductCatalog({ productos, inventario }) {
 
   return (
     <div className='space-y-8' id='catalog'>
-      <h2 className='text-2xl font-brand text-center bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'>
+      <h2 className='text-2xl font-brand text-center'>
         NUESTROS PRODUCTOS
       </h2>
       <div className='flex justify-center flex-wrap gap-12'>

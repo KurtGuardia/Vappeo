@@ -45,12 +45,13 @@ export function SocialMediaSection() {
       className={`px-4 py-12 bg-gradient-to-br m-0 ${
         theme === 'dark'
           ? 'from-gray-900 to-black'
-          : 'from-amber-600 to-yellow-500'
+          : 'from-rose-300 to-red-500'
       }`}
     >
       <div className='max-w-sm mx-auto space-y-8'>
         <div className='text-center'>
-          <h2 className='text-3xl font-brand mb-4 bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'>
+          <h2 className='text-3xl font-brand mb-4'>
+            {/* <h2 className='text-3xl font-brand mb-4 bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'> */}
             SÍGUENOS
           </h2>
           <p className=''>
@@ -83,7 +84,7 @@ export function SocialMediaSection() {
         </div>
 
         <div className='text-center glass-effect p-6 rounded-2xl'>
-          <h3 className='font-brand text-xl mb-2 text-[#C1121F]'>
+          <h3 className='font-brand text-xl mb-2'>
             ¡COMPARTE TU EXPERIENCIA!
           </h3>
           <p className='text-sm'>

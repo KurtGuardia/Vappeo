@@ -49,10 +49,11 @@ export function Navbar() {
       ? 'text-neutral-800 hover:text-[#C1121F]'
       : 'text-gray-400 hover:text-white'
 
-  const activeIconClasses =
-    theme === 'light-sunset'
-      ? 'text-[#C1121F]'
-      : 'text-white'
+  const activeIconClasses = 'text-white'
+  // const activeIconClasses =
+  //   theme === 'light-sunset'
+  //     ? 'text-[#C1121F]'
+  //     : 'text-white'
 
   const logoSrc =
     theme === 'light-sunset'
@@ -116,7 +117,7 @@ export function Navbar() {
 
           <button
             onClick={() => handleScrollToSection('catalog')}
-            className={`flex flex-col items-center space-y-1 transition-colors ${inactiveIconClasses}`}
+            className={`flex flex-col items-center cursor-pointer space-y-1 transition-colors ${inactiveIconClasses}`}
           >
             <Flame className='h-5 w-5' />
             <span className='text-xs'>Catálogo</span>
@@ -145,7 +146,7 @@ export function Navbar() {
             onClick={() =>
               handleScrollToSection('social-section')
             }
-            className={`flex flex-col items-center space-y-1 transition-colors ${inactiveIconClasses}`}
+            className={`flex flex-col items-center space-y-1 cursor-pointer transition-colors ${inactiveIconClasses}`}
           >
             <Instagram className='h-5 w-5' />
             <span className='text-xs'>Social</span>

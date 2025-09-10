@@ -20,7 +20,7 @@ export function ThemeToggle() {
     <Button
       variant='ghost'
       size='icon'
-      className='relative h-9 w-9 px-8 hover:bg-black/10'
+      className='relative h-9 w-9 px-8 cursor-pointer hover:bg-black/10'
       onClick={toggleTheme}
       aria-label='Toggle Theme'
     >
