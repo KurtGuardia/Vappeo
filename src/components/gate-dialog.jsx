@@ -14,6 +14,7 @@ import {
   RadioGroupItem,
 } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
+import Image from 'next/image'
 
 export function GateDialog() {
   const { changeCityAndClearCart } = useStore()
@@ -44,8 +45,15 @@ export function GateDialog() {
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
         showCloseButton={false}
-        className='bg-border border-gray-700 mx-auto max-w-sm'
+        className='bg-border border-gray-700 w-11/12 md:w-full md:mx-auto max-w-sm'
       >
+        <Image
+          src='/imgs/vappeo_logo_transparent.png'
+          width={150}
+          height={150}
+          className='mx-auto'
+          alt='Vappeo logo'
+        />
         <DialogHeader>
           <DialogTitle className='text-center font-brand text-xl'>
             BIENVENIDO A VAPPEO
@@ -59,13 +67,13 @@ export function GateDialog() {
             </p>
             <RadioGroup
               onValueChange={setSelectedCity}
-              className='flex justify-center gap-4'
+              className='flex flex-col md:flex-row justify-center gap-4'
             >
-              <div className='flex items-center space-x-3 glass-effect p-4 rounded-xl'>
+              <div className='flex items-center space-x-3 p-2 rounded-xl bg-red-100 text-gray-700'>
                 <RadioGroupItem
                   value='cochabamba'
                   id='cochabamba-gate'
-                  className='border-[#C1121F]'
+                  className='border-[#C1121F] data-[state=checked]:text-red-900'
                 />
                 <Label
                   htmlFor='cochabamba-gate'
@@ -74,11 +82,11 @@ export function GateDialog() {
                   Cochabamba
                 </Label>
               </div>
-              <div className='flex items-center space-x-3 glass-effect p-4 rounded-xl'>
+              <div className='flex items-center space-x-3 p-2 rounded-xl bg-red-100 text-gray-700'>
                 <RadioGroupItem
                   value='santa cruz'
                   id='santa-cruz-gate'
-                  className='border-[#C1121F]'
+                  className='border-[#C1121F] data-[state=checked]:text-red-900'
                 />
                 <Label
                   htmlFor='santa-cruz-gate'
