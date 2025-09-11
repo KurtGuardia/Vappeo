@@ -45,12 +45,12 @@
     ); /* Intense, fiery orange for buttons */
     --primary-foreground: oklch(0.1 0.05 60);
     --secondary: oklch(
-      0.57 0.19 19
-    ); /* Vappeo Red as secondary */
+      0.45 0.16 15
+    ); /* Wine color as secondary */
     --secondary-foreground: oklch(1 0 0);
     --muted: oklch(0.95 0.04 70);
     --muted-foreground: oklch(0.5 0.05 60);
-    --border: oklch(0.8 0.15 60 / 50%);
+    --border: oklch(55.647% 0.15158 10.497 / 0.5);
     --input: oklch(0.95 0.04 70 / 80%);
     --ring: oklch(0.7 0.25 55);
     --radius: 0.625rem;
@@ -58,15 +58,15 @@
   html[data-theme='light-sunset'] body {
     /* Dramatic gradient from a fiery orange to pure white */
     background-image: radial-gradient(
-      ellipse 80% 80% at 50% 10%,
-      oklch(0.57 0.19 19),
-      oklch(1 0 0)
+      ellipse 60% 80% at 50% 10%,
+      oklch(1 0 0),
+      oklch(36.865% 0.13164 15.658)
     );
   }
 
   /* to test colors */
   .test {
-    color: #a60316;
+    color: #6c081e;
     background-color: #ffbdbd;
   }
 

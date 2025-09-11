@@ -45,10 +45,10 @@ export function SocialMediaSection() {
       className={`px-4 py-12 bg-gradient-to-br m-0 ${
         theme === 'dark'
           ? 'from-gray-900 to-black'
-          : 'from-rose-300 to-red-500'
+          : ' from-red-800 to-red-950'
       }`}
     >
-      <div className='max-w-sm mx-auto space-y-8'>
+      <div className='max-w-sm mx-auto space-y-8 text-white'>
         <div className='text-center'>
           <h2 className='text-3xl font-brand mb-4'>
             {/* <h2 className='text-3xl font-brand mb-4 bg-gradient-to-r from-[#C1121F] to-[#8B0000] bg-clip-text text-transparent'> */}

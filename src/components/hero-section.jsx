@@ -9,7 +9,7 @@ export function HeroSection({ quote }) {
     background:
       theme === 'dark'
         ? 'linear-gradient(315deg, #000 20%, #b30000 100%)'
-        : 'linear-gradient(135deg, #ffffff, #a60316)',
+        : 'linear-gradient(135deg, #ffffff -20%, #6c081e 100%)',
   }
 
   const quoteClasses =
@@ -31,9 +31,9 @@ export function HeroSection({ quote }) {
         priority
       />
       <div
-        className={`max-w-[calc(100%-2rem)] text-center font-semibold text-lg backdrop-blur-sm rounded-full py-3 px-6 mb-5 w-fit ${quoteClasses}`}
+        className={`text-center font-semibold text-lg backdrop-blur-sm py-3 px-6 mb-5 w-full ${quoteClasses}`}
       >
-        🎉 {quote} 🎉
+        {quote}
       </div>
     </div>
   )
