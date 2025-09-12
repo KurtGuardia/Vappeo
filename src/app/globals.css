@@ -58,9 +58,9 @@
   html[data-theme='light-sunset'] body {
     /* Dramatic gradient from a fiery orange to pure white */
     background-image: radial-gradient(
-      ellipse 60% 80% at 50% 10%,
-      oklch(1 0 0),
-      oklch(36.865% 0.13164 15.658)
+      ellipse 90% 80% at 50% 10%,
+      oklch(36.865% 0.13164 15.658),
+      oklch(1 0 0)
     );
   }
 
