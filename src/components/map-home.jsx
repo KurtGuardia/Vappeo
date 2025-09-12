@@ -20,7 +20,11 @@ function createVenueIcon(name) {
     className: 'venue-marker-container', // A container class for positioning
     html: `
       <img src="/imgs/e_red.png" style="width: 35px; height: 35px;" />
-      <div class="venue-marker-label">${name}</div>
+      ${
+        name
+          ? `<div class='venue-marker-label'>${name}</div>`
+          : ''
+      }
     `,
     iconSize: [120, 45], // Adjust size to fit the label
     iconAnchor: [60, 45], // Anchor at the bottom-center of the whole element
