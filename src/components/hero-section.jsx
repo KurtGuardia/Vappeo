@@ -9,7 +9,7 @@ export function HeroSection({ quote }) {
     background:
       theme === 'dark'
         ? 'linear-gradient(315deg, #000 20%, #b30000 100%)'
-        : 'linear-gradient(135deg, #ffffff -20%, #6c081e 100%)',
+        : 'linear-gradient(135deg, #ffffff -20%, #6c081e 50%)',
   }
 
   const quoteClasses =

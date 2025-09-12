@@ -86,7 +86,7 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed left-0 right-0 z-50 py-4 glass-effect px-6 transition-all duration-300 ease-in-out ${
+      className={`fixed left-0 right-0 z-50 py-4 glass-effect px-2 md:px-6 transition-all duration-300 ease-in-out ${
         isScrolled ? 'top-0' : 'top-8'
       }`}
     >
