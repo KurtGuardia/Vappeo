@@ -18,6 +18,7 @@ export function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [activeHash, setActiveHash] = useState('')
   const { theme } = useThemeStore()
   const { cart } = useStore()
   const cartItemCount = cart.reduce(
@@ -44,16 +45,30 @@ export function Navbar() {
     }
   }, [])
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      setActiveHash(window.location.hash)
+    }
+
+    // Set initial hash
+    handleHashChange()
+
+    window.addEventListener('hashchange', handleHashChange)
+    return () =>
+      window.removeEventListener(
+        'hashchange',
+        handleHashChange,
+      )
+  }, [pathname])
+
   const inactiveIconClasses =
     theme === 'light-sunset'
-      ? 'text-neutral-800 hover:text-[#C1121F]'
+      ? 'text-neutral-600 hover:text-black'
       : 'text-gray-400 hover:text-white'
 
-  const activeIconClasses = 'text-white'
-  // const activeIconClasses =
-  //   theme === 'light-sunset'
-  //     ? 'text-[#C1121F]'
-  //     : 'text-white'
+  // const activeIconClasses = 'text-white'
+  const activeIconClasses =
+    theme === 'light-sunset' ? 'text-black' : 'text-white'
 
   const logoSrc =
     theme === 'light-sunset'
@@ -72,7 +87,11 @@ export function Navbar() {
           elementPosition +
           window.pageYOffset -
           navbarHeight
-
+        window.history.pushState(null, '', `#${sectionId}`)
+        // Manually trigger a hashchange event since pushState doesn't
+        window.dispatchEvent(
+          new HashChangeEvent('hashchange'),
+        )
         window.scrollTo({
           top: offsetPosition,
           behavior: 'smooth',
@@ -86,7 +105,7 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed left-0 right-0 z-50 py-4 glass-effect px-2 md:px-6 transition-all duration-300 ease-in-out ${
+      className={`fixed left-0 right-0 z-50 p-4 glass-effect md:px-6 transition-all duration-300 ease-in-out ${
         isScrolled ? 'top-0' : 'top-8'
       }`}
     >
@@ -102,11 +121,16 @@ export function Navbar() {
           priority
         />
 
-        <div className='flex items-center space-x-6'>
+        <div className='flex items-center space-x-4 md:space-x-6'>
           <Link
             href='/'
+            onClick={() => {
+              if (window.location.hash) {
+                setActiveHash('')
+              }
+            }}
             className={`flex flex-col items-center space-y-1 transition-colors ${
-              pathname === '/'
+              pathname === '/' && activeHash === ''
                 ? activeIconClasses
                 : inactiveIconClasses
             }`}
@@ -117,7 +141,11 @@ export function Navbar() {
 
           <button
             onClick={() => handleScrollToSection('catalog')}
-            className={`flex flex-col items-center cursor-pointer space-y-1 transition-colors ${inactiveIconClasses}`}
+            className={`flex flex-col items-center cursor-pointer space-y-1 transition-colors ${
+              activeHash === '#catalog'
+                ? activeIconClasses
+                : inactiveIconClasses
+            }`}
           >
             <Flame className='h-5 w-5' />
             <span className='text-xs'>Catálogo</span>
@@ -125,8 +153,13 @@ export function Navbar() {
 
           <Link
             href='/carrito'
+            onClick={() => {
+              if (window.location.hash) {
+                setActiveHash('')
+              }
+            }}
             className={`flex flex-col items-center space-y-1 transition-colors relative ${
-              pathname === '/carrito'
+              pathname === '/carrito' && activeHash === ''
                 ? activeIconClasses
                 : inactiveIconClasses
             }`}
@@ -146,7 +179,11 @@ export function Navbar() {
             onClick={() =>
               handleScrollToSection('social-section')
             }
-            className={`flex flex-col items-center space-y-1 cursor-pointer transition-colors ${inactiveIconClasses}`}
+            className={`flex flex-col items-center space-y-1 cursor-pointer transition-colors ${
+              activeHash === '#social-section'
+                ? activeIconClasses
+                : inactiveIconClasses
+            }`}
           >
             <Instagram className='h-5 w-5' />
             <span className='text-xs'>Social</span>

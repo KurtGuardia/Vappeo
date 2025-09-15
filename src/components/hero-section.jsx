@@ -19,7 +19,7 @@ export function HeroSection({ quote }) {
 
   return (
     <div
-      className='relative h-80 md:h-96 lg:h-[28rem] flex flex-col items-center justify-end gap-28 overflow-hidden'
+      className='relative h-80 md:h-96 lg:h-[28rem] flex flex-col items-center justify-end gap-20 md:gap-28 overflow-hidden'
       style={gradientStyle}
     >
       <Image

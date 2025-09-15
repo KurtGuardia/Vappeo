@@ -134,13 +134,13 @@
   /* Light Mode */
   html[data-theme='light-sunset'] .theme-toggle-sun {
     /* Right, smaller, gray */
-    transform: translateX(10px) scale(0.9);
+    transform: translateX(15px) scale(0.9);
     color: var(--color-gray-500);
     /* opacity: 0.6; */
   }
   html[data-theme='light-sunset'] .theme-toggle-moon {
     /* Left, bigger, black */
-    transform: translateX(-15px) scale(1.5);
+    transform: translateX(-10px) scale(1.5);
     color: var(--color-neutral-800);
     opacity: 1;
   }

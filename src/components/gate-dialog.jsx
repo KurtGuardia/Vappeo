@@ -73,7 +73,7 @@ export function GateDialog() {
                 <RadioGroupItem
                   value='cochabamba'
                   id='cochabamba-gate'
-                  className='border-[#C1121F] data-[state=checked]:text-red-900'
+                  className='border-[#C1121F] data-[state=checked]:text-red-900 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-inherit'
                 />
                 <Label
                   htmlFor='cochabamba-gate'
@@ -86,7 +86,7 @@ export function GateDialog() {
                 <RadioGroupItem
                   value='santa cruz'
                   id='santa-cruz-gate'
-                  className='border-[#C1121F] data-[state=checked]:text-red-900'
+                  className='border-[#C1121F] data-[state=checked]:text-red-900 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-inherit'
                 />
                 <Label
                   htmlFor='santa-cruz-gate'
