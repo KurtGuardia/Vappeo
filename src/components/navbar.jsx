@@ -1,12 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import {
-  Home,
-  ShoppingCart,
-  Instagram,
-  Flame,
-} from 'lucide-react'
+import { Home, ShoppingCart, Flame } from 'lucide-react'
+import { SiInstagram } from 'react-icons/si'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -113,11 +109,11 @@ export function Navbar() {
         <ThemeToggle />
 
         <Image
-          src={logoSrc}
+          src={'/imgs/vappeo png.png'}
           alt='VAPPEO Logo'
           width={120}
           height={30}
-          className='h-8 w-auto'
+          className='h-5 md:h-8 w-auto'
           priority
         />
 
@@ -185,7 +181,7 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <Instagram className='h-5 w-5' />
+            <SiInstagram className='h-5 w-5' />
             <span className='text-xs'>Social</span>
           </button>
         </div>

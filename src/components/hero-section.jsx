@@ -1,8 +1,9 @@
 'use client'
 import Image from 'next/image'
 import { useThemeStore } from '@/lib/ui-store'
+import { Truck } from 'lucide-react'
 
-export function HeroSection({ quote }) {
+export function HeroSection() {
   const { theme } = useThemeStore()
 
   const gradientStyle = {
@@ -14,8 +15,8 @@ export function HeroSection({ quote }) {
 
   const quoteClasses =
     theme === 'dark'
-      ? 'text-white bg-black/30'
-      : 'text-neutral-800 bg-white/30'
+      ? 'text-white bg-red-900'
+      : 'text-neutral-800 bg-white'
 
   return (
     <div
@@ -23,17 +24,29 @@ export function HeroSection({ quote }) {
       style={gradientStyle}
     >
       <Image
-        src='/imgs/vappeo_logo_transparent.png'
+        src='/imgs/vappeo png.png'
         alt='VAPPEO Logo'
-        width={600}
-        height={149}
+        width={848}
+        height={192}
         className='h-24 md:h-36 lg:h-44 w-auto -mt-10'
         priority
       />
       <div
-        className={`text-center font-semibold text-lg backdrop-blur-sm py-3 px-6 mb-5 w-full ${quoteClasses}`}
+        className={`text-center font-semibold text-sm md:text-lg py-1 md:py-3 px-2 md:px-6 w-full ${quoteClasses}`}
       >
-        {quote}
+        <Truck
+          style={{ display: 'inline-block', margin: '5px' }}
+        />{' '}
+        <b>ENVÍOS GRATIS</b> en pedidos arriba de{' '}
+        <span
+          className={`${
+            theme === 'dark'
+              ? 'text-amber-600'
+              : 'text-red-900'
+          }`}
+        >
+          249 bs.
+        </span>
       </div>
     </div>
   )
