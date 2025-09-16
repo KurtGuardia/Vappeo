@@ -30,7 +30,9 @@ export default function RootLayout({ children }) {
             Envíos a todo el país ✈️
           </div>
           <Navbar />
-          <main className='flex-1 pt-18'>{children}</main>
+          <main className='flex-1 pt-14 md:pt-18'>
+            {children}
+          </main>
         </div>
         <GateDialog />
         <TermsDialog />
