@@ -57,12 +57,11 @@
   }
   html[data-theme='light-sunset'] body {
     /* Dramatic gradient from a fiery orange to pure white */
-    /* background-image: radial-gradient(
+    background-image: radial-gradient(
       ellipse 90% 80% at 50% 10%,
-      oklch(36.865% 0.13164 15.658),
-      oklch(1 0 0)
-    ); */
-    background-color: white;
+      oklch(1 0 0),
+      oklch(89.143% 0.0001 271.152)
+    );
   }
 
   /* to test colors */

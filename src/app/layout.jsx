@@ -1,15 +1,24 @@
-import { Inter, Bebas_Neue } from 'next/font/google'
+import {
+  Inter,
+  Bebas_Neue,
+  League_Spartan,
+} from 'next/font/google'
 import './globals.css'
 import 'leaflet/dist/leaflet.css'
 import { Navbar } from '@/components/navbar'
 import { GateDialog } from '@/components/gate-dialog'
 import { TermsDialog } from '@/components/terms-dialog'
 
-const inter = Inter({ subsets: ['latin'] })
 const bebas = Bebas_Neue({
   weight: '400',
   subsets: ['latin'],
   variable: '--font-bebas',
+})
+
+export const leagueSpartan = League_Spartan({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-league-spartan',
 })
 
 export const metadata = {
@@ -24,7 +33,9 @@ export default function RootLayout({ children }) {
       className={`${bebas.variable}`}
       suppressHydrationWarning={true}
     >
-      <body className={`${inter.className} min-h-screen`}>
+      <body
+        className={`${leagueSpartan.className} min-h-screen`}
+      >
         <div className='flex flex-col min-h-screen'>
           <div className='flex h-8 items-center justify-center bg-blue-950 text-center tracking-widest text-white font-bold'>
             Envíos a todo el país ✈️
