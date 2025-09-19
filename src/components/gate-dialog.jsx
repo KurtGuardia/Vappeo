@@ -45,10 +45,10 @@ export function GateDialog() {
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
         showCloseButton={false}
-        className='bg-border border-gray-700 w-11/12 md:w-full md:mx-auto max-w-sm'
+        className='bg-border border-gray-700 text-gray-300 w-11/12 md:w-full md:mx-auto max-w-sm'
       >
         <Image
-          src='/imgs/vappeo_logo_transparent.png'
+          src='/imgs/VAPPEO-LOGO-BLANCO.png'
           width={150}
           height={150}
           className='mx-auto'
@@ -62,7 +62,7 @@ export function GateDialog() {
         <div className='space-y-6 text-center'>
           {/* City Selection */}
           <div className='space-y-3'>
-            <p className='text-gray-300 font-semibold'>
+            <p className=' font-semibold'>
               Selecciona tu ciudad
             </p>
             <RadioGroup
@@ -100,7 +100,7 @@ export function GateDialog() {
 
           {/* Age Confirmation */}
           <div className='space-y-2'>
-            <p className='text-gray-300 font-semibold'>
+            <p className=' font-semibold'>
               ¿Eres mayor de 18 años?
             </p>
             <p className='text-sm'>
