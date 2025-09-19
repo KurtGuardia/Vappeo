@@ -24,6 +24,11 @@ export const leagueSpartan = League_Spartan({
 export const metadata = {
   title: 'VAPPEO',
   description: 'La mejor tienda de vapeo de Bolivia',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
 }
 
 export default function RootLayout({ children }) {

@@ -32,7 +32,9 @@ export function HeroSection() {
         <b>249 bs.</b>
       </div>
       <Image
-        src='/imgs/vappeo png.png'
+        src={`/imgs/VAPPEO-LOGO-${
+          theme === 'dark' ? 'BLANCO' : 'ROJO'
+        }.png`}
         alt='VAPPEO Logo'
         width={848}
         height={192}

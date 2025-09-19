@@ -109,7 +109,9 @@ export function Navbar() {
         <ThemeToggle />
 
         <Image
-          src={'/imgs/vappeo png.png'}
+          src={`/imgs/VAPPEO-LOGO-${
+            theme === 'dark' ? 'BLANCO' : 'ROJO'
+          }.png`}
           alt='VAPPEO Logo'
           width={120}
           height={30}
