@@ -101,7 +101,7 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed left-0 right-0 z-50 p-2 md:p-4 glass-effect md:px-6 transition-all duration-300 ease-in-out ${
+      className={`fixed left-0 right-0 z-50 p-2 md:py-4 glass-effect md:px-6 transition-all duration-300 ease-in-out ${
         isScrolled ? 'top-0' : 'top-8'
       }`}
     >
@@ -109,17 +109,17 @@ export function Navbar() {
         <ThemeToggle />
 
         <Image
-          src={`/imgs/VAPPEO-LOGO-${
+          src={`/imgs/ISOTIPO-${
             theme === 'dark' ? 'BLANCO' : 'ROJO'
           }.png`}
           alt='VAPPEO Logo'
           width={120}
           height={30}
-          className='h-5 md:h-8 w-auto mx-1'
+          className='h-5 md:h-8 w-auto'
           priority
         />
 
-        <div className='flex items-center space-x-2 md:space-x-6'>
+        <div className='flex items-center space-x-4 md:space-x-6'>
           <Link
             href='/'
             onClick={() => {
@@ -133,7 +133,7 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <Home className='h-4 md:h-5 w-4 md:w-5' />
+            <Home className='h-5 w-5' />
             <span className='text-xs'>Inicio</span>
           </Link>
 
@@ -145,7 +145,7 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <Flame className='h-4 md:h-5 w-4 md:w-5' />
+            <Flame className='h-5 w-5' />
             <span className='text-xs'>Catálogo</span>
           </button>
 
@@ -163,7 +163,7 @@ export function Navbar() {
             }`}
           >
             <div className='relative'>
-              <ShoppingCart className='h-4 md:h-5 w-4 md:w-5' />
+              <ShoppingCart className='h-5 w-5' />
               {cartItemCount > 0 && (
                 <span className='absolute -top-2 -right-2 bg-[#C1121F] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center'>
                   {cartItemCount}
@@ -183,7 +183,7 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <SiInstagram className='h-4 md:h-5 w-4 md:w-5' />
+            <SiInstagram className='h-5 w-5' />
             <span className='text-xs'>Social</span>
           </button>
         </div>
