@@ -13,7 +13,7 @@ export function CartItems() {
       {cart.map((item, index) => (
         <Card
           key={index}
-          className='glass-effect border-gray-700'
+          className='glass-effect border-gray-700 py-0'
         >
           <CardContent className='p-4'>
             <div className='flex justify-between items-start'>

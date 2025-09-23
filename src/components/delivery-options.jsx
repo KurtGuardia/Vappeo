@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useStore } from '@/lib/store'
 import { MapDelivery } from './map-delivery'
 
-export function DeliveryOptions({ venues }) {
+export function DeliveryOptions({ venues, showError }) {
   const {
     deliveryOption,
     setDeliveryOption,
@@ -60,13 +60,13 @@ export function DeliveryOptions({ venues }) {
             <div className='ml-6 space-y-4'>
               <Input
                 name='name'
-                placeholder='Nombre completo'
+                placeholder='*Nombre completo'
                 value={deliveryDetails.name}
                 onChange={handleDetailChange}
               />
               <Input
                 name='phone'
-                placeholder='Teléfono'
+                placeholder='*Teléfono'
                 type='tel'
                 value={deliveryDetails.phone}
                 onChange={handleDetailChange}
@@ -74,7 +74,7 @@ export function DeliveryOptions({ venues }) {
               <MapDelivery />
               <Input
                 name='address'
-                placeholder='Dirección completa'
+                placeholder='*Dirección completa'
                 value={deliveryDetails.address}
                 onChange={handleDetailChange}
               />
@@ -84,6 +84,13 @@ export function DeliveryOptions({ venues }) {
                 value={deliveryDetails.observations}
                 onChange={handleDetailChange}
               />
+              <span
+                className={`text-red-600 text-sm ${
+                  !showError ? 'hidden' : ''
+                }`}
+              >
+                Los campos con * son obligatorios
+              </span>
             </div>
           )}
         </div>
@@ -158,40 +165,37 @@ export function DeliveryOptions({ venues }) {
             <div className='ml-6 space-y-4'>
               <Input
                 name='name'
-                placeholder='Nombre completo'
+                placeholder='*Nombre completo'
                 value={deliveryDetails.name}
                 onChange={handleDetailChange}
               />
               <div className='grid grid-cols-2 gap-3'>
                 <Input
                   name='ci'
-                  placeholder='C.I.'
+                  placeholder='*C.I.'
                   value={deliveryDetails.ci}
                   onChange={handleDetailChange}
                 />
                 <Input
                   name='phone'
-                  placeholder='Teléfono'
+                  placeholder='*Teléfono'
                   type='tel'
                   value={deliveryDetails.phone}
                   onChange={handleDetailChange}
                 />
               </div>
-
               <Input
                 name='city'
-                placeholder='Ciudad de destino'
+                placeholder='*Ciudad de destino'
                 value={deliveryDetails.city}
                 onChange={handleDetailChange}
               />
-
               <Input
                 name='addressInterior'
-                placeholder='Dirección completa'
+                placeholder='*Dirección completa'
                 value={deliveryDetails.addressInterior}
                 onChange={handleDetailChange}
               />
-
               <Textarea
                 name='observations'
                 placeholder='Observaciones (referencias, instrucciones especiales...)'
@@ -200,7 +204,6 @@ export function DeliveryOptions({ venues }) {
                 className='resize-none'
                 rows={3}
               />
-
               <div className='flex items-center space-x-2 p-3 bg-amber-900/20 rounded-lg border border-amber-600/30'>
                 <input
                   name='urgent'
@@ -214,6 +217,13 @@ export function DeliveryOptions({ venues }) {
                   Envío urgente (avión)
                 </Label>
               </div>
+              <span
+                className={`text-red-600 text-sm ${
+                  !showError ? 'hidden' : ''
+                }`}
+              >
+                Los campos con * son obligatorios
+              </span>
             </div>
           )}
         </div>

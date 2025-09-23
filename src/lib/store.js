@@ -2,6 +2,19 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+const initialDeliveryDetails = {
+  name: '',
+  phone: '',
+  address: '',
+  addressInterior: '',
+  observations: '',
+  city: '',
+  urgent: false,
+  lat: null,
+  lng: null,
+  ci: '',
+}
+
 export const useStore = create()(
   persist(
     (set, get) => ({
@@ -13,18 +26,7 @@ export const useStore = create()(
       discount: 0,
       total: 0,
       pickupPointId: null,
-      deliveryDetails: {
-        name: '',
-        phone: '',
-        address: '',
-        addressInterior: '',
-        observations: '',
-        city: '',
-        urgent: false,
-        lat: null,
-        lng: null,
-        ci: '',
-      },
+      deliveryDetails: initialDeliveryDetails,
 
       changeCityAndClearCart: (city) => {
         set({
@@ -70,8 +72,12 @@ export const useStore = create()(
         get().calculateTotals()
       },
 
-      setDeliveryOption: (option) =>
-        set({ deliveryOption: option }),
+      setDeliveryOption: (option) => {
+        set({
+          deliveryOption: option,
+          deliveryDetails: initialDeliveryDetails,
+        })
+      },
 
       setPickupPoint: (pointId) =>
         set({ pickupPointId: pointId }),
