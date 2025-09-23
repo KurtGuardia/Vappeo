@@ -32,9 +32,11 @@
     --foreground: oklch(
       0.15 0.1 40
     ); /* Deep, dark, warm brown text */
-    --card: oklch(
-      0.1 0 0 / 60%
-    ); /* Dark, smoky transparent card */
+    --card: color-mix(
+      in oklab,
+      var(--foreground) 5%,
+      transparent
+    );
     --card-foreground: oklch(
       17.086% 0.00334 17.166
     ); /* White text on the dark card */
@@ -77,9 +79,11 @@
     --foreground: oklch(
       0.98 0.01 20
     ); /* Bright, near-white text for max contrast */
-    --card: oklch(
-      0.1 0.01 20 / 75%
-    ); /* Dark, semi-transparent charcoal card */
+    --card: color-mix(
+      in oklab,
+      var(--foreground) 5%,
+      transparent
+    );
     --card-foreground: oklch(0.98 0.01 20);
     --popover: oklch(0.1 0.01 20);
     --popover-foreground: oklch(0.98 0.01 20);

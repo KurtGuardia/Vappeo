@@ -1,15 +1,18 @@
 'use client'
-import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { FlavorDialog } from '@/components/flavor-dialog'
 import { useStore } from '@/lib/store'
+import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
+import React from 'react'
 
 export function ProductCatalog({ productos, inventario }) {
-  const { selectedCity } = useStore()
-  const [selectedProduct, setSelectedProduct] =
-    useState(null)
+  const {
+    selectedCity,
+    cart,
+    addFlavorToCart,
+    decrementFlavorInCart,
+  } = useStore()
 
   const availableProducts = productos.filter((p) =>
     inventario.some(
@@ -19,51 +22,96 @@ export function ProductCatalog({ productos, inventario }) {
     ),
   )
 
+  const getStockFlag = (flavor) => {
+    if (flavor.etiqueta) return flavor.etiqueta
+    if (parseInt(flavor.stock || 0, 10) === 0)
+      return 'AGOTADO'
+    if (
+      parseInt(flavor.stock || 0, 10) > 0 &&
+      parseInt(flavor.stock || 0, 10) <= 5
+    )
+      return 'QUEDAN_POCOS'
+    return 'OK'
+  }
+
+  const getFlavorStyles = (flag) => {
+    if (!flag || flag === 'OK') {
+      return {
+        borderClass:
+          'border-[var(--foreground)]/5 border-t-2',
+        message: '',
+      }
+    }
+
+    switch (flag) {
+      case 'QUEDAN_POCOS':
+        return {
+          borderClass: 'border-amber-600',
+          message: 'ÚLTIMAS',
+        }
+      case 'AGOTADO':
+        return {
+          borderClass: 'border-red-600/50 opacity-50',
+          message: 'AGOTADO',
+        }
+      case 'TOP':
+        return {
+          borderClass: 'border-green-600/50',
+          message: 'TOP MÁS VENDIDO',
+        }
+      case 'NUEVO':
+        return {
+          borderClass: 'border-blue-500/50',
+          message: 'NUEVO',
+        }
+      default:
+        return {
+          borderClass:
+            'border-[var(--foreground)]/5 border-t-2',
+          message: '',
+        }
+    }
+  }
+
   return (
     <div className='space-y-8' id='catalog'>
-      <h2 className='text-2xl font-brand text-center'>
+      <h2 className='text-3xl font-brand text-center'>
         NUESTROS PRODUCTOS
       </h2>
-      <div className='flex justify-center flex-wrap gap-12'>
+      <div className='flex justify-center flex-wrap gap-0 md:gap-8'>
         {availableProducts.map((product) => {
-          // const cityInventoryItem = inventario.find(
-          //   (inv) =>
-          //     inv?.producto_id === product.id &&
-          //     inv?.ciudad?.toLowerCase() === selectedCity,
-          // )
-          // // Fallback price if somehow not found, though your filter logic prevents this.
-          // const price = cityInventoryItem.precio
-          //   ? cityInventoryItem.precio
-          //   : '[consultar]'
+          const cityInventory = inventario.filter(
+            (inv) =>
+              inv?.producto_id === product.id &&
+              inv?.ciudad?.toLowerCase() === selectedCity,
+          )
 
           return (
-            <Card
-              key={product.id}
-              className='glass-effect rounded-2xl overflow-hidden flex flex-col w-ful md:w-1/4'
-            >
-              <CardContent className='p-6 flex flex-col flex-1 items-center text-center'>
-                <div className='relative w-32 h-32 mb-4'>
-                  <Image
-                    src={
-                      product.imagen || '/placeholder.svg'
-                    }
-                    alt={product.nombre}
-                    fill
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-                <div className='flex-1'>
+            <React.Fragment key={product.id}>
+              <Card className='glass-effect rounded-2xl overflow-hidden flex flex-col p-3 mx-5'>
+                <CardContent className='flex flex-col flex-1 items-center gap-2 text-center'>
                   <h3 className='font-brand text-2xl'>
                     {product.nombre}
                   </h3>
-                  <p className='00 text-sm mt-1 mb-4'>
+                  <div className='relative w-md h-96'>
+                    <Image
+                      src={
+                        product.imagen ||
+                        '/imgs/placeholder.png'
+                      }
+                      alt={product.nombre}
+                      fill
+                      style={{ objectFit: 'contain' }}
+                    />
+                  </div>
+                  <p className='text-sm'>
                     {product.descripcion}
                   </p>
-                  <h4 className='pb-3 font-bold underline'>
+                  <h4 className='font-bold underline'>
                     Especificaciones:
                   </h4>
                   {product.specs && (
-                    <ul className='text-sm list-disc list-inside mb-4 text-left'>
+                    <ul className='text-sm list-disc list-inside text-left'>
                       {product.specs
                         .split(',')
                         .map((spec, index) => (
@@ -71,42 +119,121 @@ export function ProductCatalog({ productos, inventario }) {
                         ))}
                     </ul>
                   )}
-                  <h4 className='pb-3 font-bold underline'>
+                  <h4 className='font-bold underline'>
                     Incluye:
                   </h4>
-                  <p className='00 text-sm mt-1 mb-4'>
-                    {product.pack}
+                  <p className='text-sm'>{product.pack}</p>
+                  <p className='text-sm'>
+                    {product.precio}
                   </p>
-                </div>
+                </CardContent>
+              </Card>
 
-                <Button
-                  onClick={() =>
-                    setSelectedProduct({
-                      ...product,
-                      // price: parseFloat(price),
-                    })
-                  }
-                  className='w-full bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold'
-                >
-                  ELEGIR SABORES
-                </Button>
-              </CardContent>
-            </Card>
+              {cityInventory.length > 0 && (
+                <div className='mt-8 mb-18 mx-5'>
+                  <h3 className='pb-3 font-bold text-2xl w-fit m-auto'>
+                    Sabores:
+                  </h3>
+                  <div className='grid grid-cols-2 gap-4'>
+                    {cityInventory.map((inv) => {
+                      const stockFlag = getStockFlag(inv)
+                      const styles =
+                        getFlavorStyles(stockFlag)
+                      const stock = parseInt(
+                        inv.stock || 0,
+                        10,
+                      )
+                      const cartProduct = cart.find(
+                        (item) => item.id === product.id,
+                      )
+                      const quantity =
+                        cartProduct?.flavors.find(
+                          (f) => f.name === inv.sabor,
+                        )?.quantity || 0
+                      const isPlusDisabled =
+                        quantity >= stock ||
+                        stockFlag === 'AGOTADO'
+                      const isMinusDisabled =
+                        quantity === 0 ||
+                        stockFlag === 'AGOTADO'
+                      return (
+                        <Card
+                          key={inv.sabor}
+                          className={`relative rounded-2xl flex flex-col py-0 border-2 border-t-[16px] ${styles.borderClass}`}
+                        >
+                          {styles.message && (
+                            <div className='absolute left-1/2 -top-3.5 -translate-x-1/2 text-xs font-semibold whitespace-nowrap '>
+                              {styles.message}
+                            </div>
+                          )}
+                          <CardContent className='p-2 md:p-4 flex flex-col items-center text-center'>
+                            <h3 className='text-lg md:text-2xl font-semibold mb-0 md:mb-2'>
+                              {inv.sabor}
+                            </h3>
+                            <div className='relative w-24 h-22 md:h-96 md:w-md'>
+                              <Image
+                                src={
+                                  inv.img ||
+                                  '/imgs/placeholder.png'
+                                }
+                                alt={inv.sabor}
+                                fill
+                                style={{
+                                  objectFit: 'contain',
+                                }}
+                              />
+                            </div>
+                            <span className='text-xl font-bold mb-0 md:mb-3'>
+                              {inv.precio
+                                ? `${inv.precio} Bs.`
+                                : ''}
+                            </span>
+                            <div className='flex items-center space-x-2'>
+                              <Button
+                                size='sm'
+                                variant='outline'
+                                onClick={() =>
+                                  decrementFlavorInCart({
+                                    productId: product.id,
+                                    flavorName: inv.sabor,
+                                  })
+                                }
+                                disabled={isMinusDisabled}
+                              >
+                                <Minus className='h-4 w-4' />
+                              </Button>
+                              <span className='w-8 text-center text-sm'>
+                                {quantity}
+                              </span>
+                              <Button
+                                size='sm'
+                                variant='outline'
+                                onClick={() =>
+                                  addFlavorToCart({
+                                    productId: product.id,
+                                    productName:
+                                      product.nombre,
+                                    price: inv.precio,
+                                    flavorName: inv.sabor,
+                                    maxStock: stock,
+                                  })
+                                }
+                                disabled={isPlusDisabled}
+                              >
+                                <Plus className='h-4 w-4' />
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </React.Fragment>
           )
         })}
       </div>
-      {selectedProduct && (
-        <FlavorDialog
-          product={selectedProduct}
-          inventario={inventario.filter(
-            (inv) =>
-              inv?.producto_id === selectedProduct.id &&
-              inv?.ciudad?.toLowerCase() === selectedCity,
-          )}
-          open={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
     </div>
   )
 }

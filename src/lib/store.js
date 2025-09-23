@@ -90,6 +90,93 @@ export const useStore = create()(
         get().calculateTotals()
       },
 
+      addFlavorToCart: ({
+        productId,
+        productName,
+        price,
+        flavorName,
+        maxStock,
+      }) => {
+        if (maxStock === 0) return // Do nothing if no stock
+
+        set((state) => {
+          const newCart = [...state.cart]
+          const existingItemIndex = newCart.findIndex(
+            (item) => item.id === productId,
+          )
+
+          if (existingItemIndex !== -1) {
+            // Item exists, update flavors
+            const item = newCart[existingItemIndex]
+            const flavorIndex = item.flavors.findIndex(
+              (f) => f.name === flavorName,
+            )
+            if (flavorIndex !== -1) {
+              // Flavor exists, increment quantity clamped to maxStock
+              item.flavors[flavorIndex].quantity = Math.min(
+                maxStock,
+                item.flavors[flavorIndex].quantity + 1,
+              )
+            } else {
+              // Add new flavor
+              item.flavors.push({
+                name: flavorName,
+                quantity: 1,
+              })
+            }
+          } else {
+            // Create new item
+            newCart.push({
+              id: productId,
+              name: productName,
+              price: price,
+              flavors: [{ name: flavorName, quantity: 1 }],
+            })
+          }
+
+          return { cart: newCart }
+        })
+        get().calculateTotals()
+      },
+
+      decrementFlavorInCart: ({
+        productId,
+        flavorName,
+      }) => {
+        set((state) => {
+          const newCart = [...state.cart]
+          const existingItemIndex = newCart.findIndex(
+            (item) => item.id === productId,
+          )
+
+          if (existingItemIndex !== -1) {
+            const item = newCart[existingItemIndex]
+            const flavorIndex = item.flavors.findIndex(
+              (f) => f.name === flavorName,
+            )
+            if (flavorIndex !== -1) {
+              item.flavors[flavorIndex].quantity = Math.max(
+                0,
+                item.flavors[flavorIndex].quantity - 1,
+              )
+              // Remove flavor if quantity is 0
+              if (
+                item.flavors[flavorIndex].quantity === 0
+              ) {
+                item.flavors.splice(flavorIndex, 1)
+              }
+              // Remove item if no flavors left
+              if (item.flavors.length === 0) {
+                newCart.splice(existingItemIndex, 1)
+              }
+            }
+          }
+
+          return { cart: newCart }
+        })
+        get().calculateTotals()
+      },
+
       calculateTotals: () => {
         const { cart, appliedCoupons } = get()
 
