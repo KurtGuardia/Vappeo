@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
 import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 export function ProductCatalog({ productos, inventario }) {
   const {
@@ -13,6 +13,8 @@ export function ProductCatalog({ productos, inventario }) {
     addFlavorToCart,
     decrementFlavorInCart,
   } = useStore()
+
+  const [animations, setAnimations] = useState({})
 
   const availableProducts = productos.filter((p) =>
     inventario.some(
@@ -34,11 +36,11 @@ export function ProductCatalog({ productos, inventario }) {
     return 'OK'
   }
 
-  const getFlavorStyles = (flag) => {
+  const getTagStyles = (flag) => {
     if (!flag || flag === 'OK') {
       return {
         borderClass:
-          'border-[var(--foreground)]/5 border-t-2',
+          'border-[var(--foreground)]/5 border-t-2 pt-4',
         message: '',
       }
     }
@@ -67,7 +69,7 @@ export function ProductCatalog({ productos, inventario }) {
       default:
         return {
           borderClass:
-            'border-[var(--foreground)]/5 border-t-2',
+            'border-[var(--foreground)]/5 border-t-2 pt-4',
           message: '',
         }
     }
@@ -78,7 +80,7 @@ export function ProductCatalog({ productos, inventario }) {
       <h2 className='text-3xl font-brand text-center'>
         NUESTROS PRODUCTOS
       </h2>
-      <div className='flex justify-center flex-wrap gap-0 md:gap-8'>
+      <div className='flex justify-center flex-wrap gap-0 md:gap-[100%]'>
         {availableProducts.map((product) => {
           const cityInventory = inventario.filter(
             (inv) =>
@@ -89,7 +91,7 @@ export function ProductCatalog({ productos, inventario }) {
           return (
             <React.Fragment key={product.id}>
               <Card className='glass-effect rounded-2xl overflow-hidden flex flex-col p-3 mx-5'>
-                <CardContent className='flex flex-col flex-1 items-center gap-2 text-center'>
+                <CardContent className='flex flex-col flex-1 items-center gap-2 text-center text-sm md:text-lg'>
                   <h3 className='font-brand text-2xl'>
                     {product.nombre}
                   </h3>
@@ -104,14 +106,12 @@ export function ProductCatalog({ productos, inventario }) {
                       style={{ objectFit: 'contain' }}
                     />
                   </div>
-                  <p className='text-sm'>
-                    {product.descripcion}
-                  </p>
+                  <p className=''>{product.descripcion}</p>
                   <h4 className='font-bold underline'>
                     Especificaciones:
                   </h4>
                   {product.specs && (
-                    <ul className='text-sm list-disc list-inside text-left'>
+                    <ul className=' list-disc list-inside text-left'>
                       {product.specs
                         .split(',')
                         .map((spec, index) => (
@@ -122,10 +122,7 @@ export function ProductCatalog({ productos, inventario }) {
                   <h4 className='font-bold underline'>
                     Incluye:
                   </h4>
-                  <p className='text-sm'>{product.pack}</p>
-                  <p className='text-sm'>
-                    {product.precio}
-                  </p>
+                  <p className=''>{product.pack}</p>
                 </CardContent>
               </Card>
 
@@ -137,8 +134,7 @@ export function ProductCatalog({ productos, inventario }) {
                   <div className='grid grid-cols-2 gap-4'>
                     {cityInventory.map((inv) => {
                       const stockFlag = getStockFlag(inv)
-                      const styles =
-                        getFlavorStyles(stockFlag)
+                      const tag = getTagStyles(stockFlag)
                       const stock = parseInt(
                         inv.stock || 0,
                         10,
@@ -159,11 +155,11 @@ export function ProductCatalog({ productos, inventario }) {
                       return (
                         <Card
                           key={inv.sabor}
-                          className={`relative rounded-2xl flex flex-col py-0 border-2 border-t-[16px] ${styles.borderClass}`}
+                          className={`relative rounded-2xl flex flex-col py-0 border-2 border-t-[16px] ${tag.borderClass}`}
                         >
-                          {styles.message && (
+                          {tag.message && (
                             <div className='absolute left-1/2 -top-3.5 -translate-x-1/2 text-xs font-semibold whitespace-nowrap '>
-                              {styles.message}
+                              {tag.message}
                             </div>
                           )}
                           <CardContent className='p-2 md:p-4 flex flex-col items-center text-center'>
@@ -188,16 +184,35 @@ export function ProductCatalog({ productos, inventario }) {
                                 ? `${inv.precio} Bs.`
                                 : ''}
                             </span>
-                            <div className='flex items-center space-x-2'>
+                            <div className='relative flex items-center'>
                               <Button
                                 size='sm'
                                 variant='outline'
-                                onClick={() =>
+                                onClick={() => {
                                   decrementFlavorInCart({
                                     productId: product.id,
                                     flavorName: inv.sabor,
                                   })
-                                }
+                                  setAnimations((prev) => ({
+                                    ...prev,
+                                    [inv.sabor]: 'remove',
+                                  }))
+                                  setTimeout(
+                                    () =>
+                                      setAnimations(
+                                        (prev) => {
+                                          const newAnims = {
+                                            ...prev,
+                                          }
+                                          delete newAnims[
+                                            inv.sabor
+                                          ]
+                                          return newAnims
+                                        },
+                                      ),
+                                    2000,
+                                  )
+                                }}
                                 disabled={isMinusDisabled}
                               >
                                 <Minus className='h-4 w-4' />
@@ -208,7 +223,7 @@ export function ProductCatalog({ productos, inventario }) {
                               <Button
                                 size='sm'
                                 variant='outline'
-                                onClick={() =>
+                                onClick={() => {
                                   addFlavorToCart({
                                     productId: product.id,
                                     productName:
@@ -217,11 +232,42 @@ export function ProductCatalog({ productos, inventario }) {
                                     flavorName: inv.sabor,
                                     maxStock: stock,
                                   })
-                                }
+                                  setAnimations((prev) => ({
+                                    ...prev,
+                                    [inv.sabor]: 'add',
+                                  }))
+                                  setTimeout(
+                                    () =>
+                                      setAnimations(
+                                        (prev) => {
+                                          const newAnims = {
+                                            ...prev,
+                                          }
+                                          delete newAnims[
+                                            inv.sabor
+                                          ]
+                                          return newAnims
+                                        },
+                                      ),
+                                    2000,
+                                  )
+                                }}
                                 disabled={isPlusDisabled}
                               >
                                 <Plus className='h-4 w-4' />
                               </Button>
+                              {animations[inv.sabor] ===
+                                'add' && (
+                                <span className='absolute top-[-24px] -right-8 bg-green-700/60 text-white px-2 py-1 rounded text-xs font-semibold animate-bounce'>
+                                  Agregado
+                                </span>
+                              )}
+                              {animations[inv.sabor] ===
+                                'remove' && (
+                                <span className='absolute top-[-24px] -left-8 bg-red-700/60 text-white px-2 py-1 rounded text-xs font-semibold animate-bounce'>
+                                  Quitado
+                                </span>
+                              )}
                             </div>
                           </CardContent>
                         </Card>
