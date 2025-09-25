@@ -30,7 +30,7 @@ export function ProductCatalog({ productos, inventario }) {
       return 'AGOTADO'
     if (
       parseInt(flavor.stock || 0, 10) > 0 &&
-      parseInt(flavor.stock || 0, 10) <= 5
+      parseInt(flavor.stock || 0, 10) <= 1
     )
       return 'QUEDAN_POCOS'
     return 'OK'
