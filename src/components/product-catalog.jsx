@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
 import { Minus, Plus } from 'lucide-react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import React, { useState } from 'react'
 
 export function ProductCatalog({ productos, inventario }) {
@@ -15,6 +15,7 @@ export function ProductCatalog({ productos, inventario }) {
   } = useStore()
 
   const [animations, setAnimations] = useState({})
+  const [imageErrors, setImageErrors] = useState({})
 
   const availableProducts = productos.filter((p) =>
     inventario.some(
@@ -98,11 +99,20 @@ export function ProductCatalog({ productos, inventario }) {
                   <div className='relative w-md h-96'>
                     <Image
                       src={
-                        product.imagen ||
-                        '/imgs/placeholder.png'
+                        imageErrors[product.id]
+                          ? '/imgs/placeholder.png'
+                          : product.imagen
                       }
                       alt={product.nombre}
-                      fill
+                      layout='fill'
+                      onError={() => {
+                        setImageErrors((prev) => ({
+                          ...prev,
+                          [product.id]: true,
+                        }))
+                      }}
+                      // Reset error state if src changes and is valid
+                      key={product.imagen}
                       style={{ objectFit: 'contain' }}
                     />
                   </div>
@@ -169,11 +179,23 @@ export function ProductCatalog({ productos, inventario }) {
                             <div className='relative w-24 h-22 md:h-96 md:w-md'>
                               <Image
                                 src={
-                                  inv.img ||
-                                  '/imgs/placeholder.png'
+                                  imageErrors[inv.id]
+                                    ? '/imgs/placeholder.png'
+                                    : inv.img ||
+                                      '/imgs/placeholder.png'
                                 }
                                 alt={inv.sabor}
-                                fill
+                                layout='fill'
+                                onError={() => {
+                                  setImageErrors(
+                                    (prev) => ({
+                                      ...prev,
+                                      [inv.id]: true,
+                                    }),
+                                  )
+                                }}
+                                // Reset error state if src changes and is valid
+                                key={inv.img}
                                 style={{
                                   objectFit: 'contain',
                                 }}
