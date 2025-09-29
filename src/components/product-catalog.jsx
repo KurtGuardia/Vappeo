@@ -3,8 +3,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useStore } from '@/lib/store'
 import { Minus, Plus } from 'lucide-react'
-import Image from 'next/legacy/image'
 import React, { useState } from 'react'
+import { ImageWithFallback } from './image-with-fallback'
 
 export function ProductCatalog({ productos, inventario }) {
   const {
@@ -15,7 +15,6 @@ export function ProductCatalog({ productos, inventario }) {
   } = useStore()
 
   const [animations, setAnimations] = useState({})
-  const [imageErrors, setImageErrors] = useState({})
 
   const availableProducts = productos.filter((p) =>
     inventario.some(
@@ -97,23 +96,12 @@ export function ProductCatalog({ productos, inventario }) {
                     {product.nombre}
                   </h3>
                   <div className='relative w-md h-96'>
-                    <Image
-                      src={
-                        imageErrors[product.id]
-                          ? '/imgs/placeholder.png'
-                          : product.imagen
-                      }
+                    <ImageWithFallback
+                      src={product.imagen}
+                      fallbackSrc='/imgs/placeholder.png'
                       alt={product.nombre}
                       layout='fill'
-                      onError={() => {
-                        setImageErrors((prev) => ({
-                          ...prev,
-                          [product.id]: true,
-                        }))
-                      }}
-                      // Reset error state if src changes and is valid
-                      key={product.imagen}
-                      style={{ objectFit: 'contain' }}
+                      objectFit='contain'
                     />
                   </div>
                   <p className=''>{product.descripcion}</p>
@@ -177,28 +165,13 @@ export function ProductCatalog({ productos, inventario }) {
                               {inv.sabor}
                             </h3>
                             <div className='relative w-24 h-22 md:h-96 md:w-md'>
-                              <Image
-                                src={
-                                  imageErrors[inv.id]
-                                    ? '/imgs/placeholder.png'
-                                    : inv.img ||
-                                      '/imgs/placeholder.png'
-                                }
+                              <ImageWithFallback
+                                src={inv.img}
+                                fallbackSrc='/imgs/placeholder.png'
                                 alt={inv.sabor}
                                 layout='fill'
-                                onError={() => {
-                                  setImageErrors(
-                                    (prev) => ({
-                                      ...prev,
-                                      [inv.id]: true,
-                                    }),
-                                  )
-                                }}
-                                // Reset error state if src changes and is valid
+                                objectFit='contain'
                                 key={inv.img}
-                                style={{
-                                  objectFit: 'contain',
-                                }}
                               />
                             </div>
                             <span className='text-xl font-bold mb-0 md:mb-3'>
