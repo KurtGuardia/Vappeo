@@ -16,34 +16,36 @@ import {
 import { Label } from '@/components/ui/label'
 import Image from 'next/image'
 
-export function GateDialog() {
-  const { changeCityAndClearCart } = useStore()
-  const [open, setOpen] = useState(false)
-  const [selectedCity, setSelectedCity] = useState(null)
+export function CityChangeDialog({ open, onOpenChange }) {
+  const {
+    changeCityAndClearCart,
+    selectedCity: currentCity,
+  } = useStore()
+  const [selectedCity, setSelectedCity] =
+    useState(currentCity)
 
   useEffect(() => {
-    const hasConfirmed =
-      sessionStorage.getItem('age-confirmed')
-    if (!hasConfirmed) {
-      setOpen(true)
+    if (open) {
+      setSelectedCity(currentCity)
     }
-  }, [])
+  }, [open, currentCity])
 
   const handleConfirm = () => {
-    if (!selectedCity) return
+    if (!selectedCity || selectedCity === currentCity)
+      return
 
     changeCityAndClearCart(selectedCity)
-    sessionStorage.setItem('age-confirmed', 'true')
-    setOpen(false)
+    onOpenChange(false)
+    setSelectedCity(currentCity)
   }
 
-  const handleDecline = () => {
-    window.location.href =
-      'https://www.instagram.com/vappeo.bo'
+  const handleCancel = () => {
+    onOpenChange(false)
+    setSelectedCity(null)
   }
 
   return (
-    <Dialog open={open} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
         className='bg-border border-gray-700 text-gray-300 w-11/12 md:w-full md:mx-auto max-w-sm'
@@ -57,7 +59,7 @@ export function GateDialog() {
         />
         <DialogHeader>
           <DialogTitle className='text-center font-brand text-xl'>
-            BIENVENIDO A VAPPEO
+            CAMBIAR CIUDAD
           </DialogTitle>
         </DialogHeader>
         <div className='space-y-6 text-center'>
@@ -67,17 +69,18 @@ export function GateDialog() {
               Selecciona tu ciudad
             </p>
             <RadioGroup
+              value={selectedCity}
               onValueChange={setSelectedCity}
               className='flex flex-col md:flex-row justify-center gap-4'
             >
               <div className='flex items-center space-x-3 p-2 rounded-xl bg-red-100 text-gray-700'>
                 <RadioGroupItem
                   value='cochabamba'
-                  id='cochabamba-gate'
+                  id='cochabamba-change'
                   className='border-[#C1121F] data-[state=checked]:text-red-900 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-inherit'
                 />
                 <Label
-                  htmlFor='cochabamba-gate'
+                  htmlFor='cochabamba-change'
                   className='text-lg font-semibold cursor-pointer'
                 >
                   Cochabamba
@@ -86,11 +89,11 @@ export function GateDialog() {
               <div className='flex items-center space-x-3 p-2 rounded-xl bg-red-100 text-gray-700'>
                 <RadioGroupItem
                   value='santa cruz'
-                  id='santa-cruz-gate'
+                  id='santa-cruz-change'
                   className='border-[#C1121F] data-[state=checked]:text-red-900 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-inherit'
                 />
                 <Label
-                  htmlFor='santa-cruz-gate'
+                  htmlFor='santa-cruz-change'
                   className='text-lg font-semibold cursor-pointer'
                 >
                   Santa Cruz
@@ -99,32 +102,24 @@ export function GateDialog() {
             </RadioGroup>
           </div>
 
-          {/* Age Confirmation */}
-          <div className='space-y-2'>
-            <p className=' font-semibold'>
-              ¿Eres mayor de 18 años?
-            </p>
-            <p className='text-sm'>
-              Debes ser mayor de edad para acceder a este
-              sitio.
-            </p>
-          </div>
-
           {/* Action Buttons */}
           <div className='flex w-full justify-center space-x-4 pt-4'>
             <Button
-              onClick={handleDecline}
+              onClick={handleCancel}
               variant='outline'
               className='w-fit cursor-pointer border-1 bg-transparent hover:bg-gray-800'
             >
-              No
+              Cancelar
             </Button>
             <Button
               onClick={handleConfirm}
-              disabled={!selectedCity}
-              className='w-fit cursor-pointer bg-[#C1121F] hover:bg-[#91090f] font-semibold disabled:bg-gray-600 disabled:cursor-not-allowed'
+              disabled={
+                !selectedCity ||
+                selectedCity === currentCity
+              }
+              className='w-fit cursor-pointer bg-[#C1121F] hover:bg-[#4b0004] font-semibold disabled:bg-gray-600 disabled:cursor-not-allowed'
             >
-              Sí
+              Cambiar
             </Button>
           </div>
         </div>

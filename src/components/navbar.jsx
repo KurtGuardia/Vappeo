@@ -1,7 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Home, ShoppingCart, Flame } from 'lucide-react'
+import {
+  Home,
+  ShoppingCart,
+  Flame,
+  MapPin,
+} from 'lucide-react'
 import { SiInstagram } from 'react-icons/si'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,12 +14,15 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useStore } from '@/lib/store'
 import { useThemeStore } from '@/lib/ui-store'
 import { ThemeToggle } from './theme-toggle'
+import { CityChangeDialog } from './city-change-dialog'
 
 export function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeHash, setActiveHash] = useState('')
+  const [openCityDialog, setOpenCityDialog] =
+    useState(false)
   const { theme } = useThemeStore()
   const { cart } = useStore()
   const cartItemCount = cart.reduce(
@@ -60,16 +68,11 @@ export function Navbar() {
   const inactiveIconClasses =
     theme === 'light-sunset'
       ? 'text-neutral-600 hover:text-black'
-      : 'text-gray-400 hover:text-white'
+      : 'text-gray-4.500 hover:text-white'
 
   // const activeIconClasses = 'text-white'
   const activeIconClasses =
     theme === 'light-sunset' ? 'text-black' : 'text-white'
-
-  const logoSrc =
-    theme === 'light-sunset'
-      ? '/imgs/vappeo_logo_transparent_black.png'
-      : '/imgs/vappeo_logo_transparent.png'
 
   const handleScrollToSection = (sectionId) => {
     if (pathname === '/') {
@@ -101,7 +104,7 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed left-0 right-0 z-50 p-2 md:py-4 glass-effect md:px-6 transition-all duration-300 ease-in-out ${
+      className={`fixed left-0 right-0 z-60 p-2 md:py-4.5 glass-effect md:px-6 transition-all duration-300 ease-in-out ${
         isScrolled ? 'top-0' : 'top-8'
       }`}
     >
@@ -115,11 +118,11 @@ export function Navbar() {
           alt='VAPPEO Logo'
           width={120}
           height={30}
-          className='h-5 md:h-8 w-auto'
+          className='h-6 md:h-8 w-auto'
           priority
         />
 
-        <div className='flex items-center space-x-4 md:space-x-6'>
+        <div className='flex items-center space-x-2 md:space-x-6'>
           <Link
             href='/'
             onClick={() => {
@@ -133,7 +136,7 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <Home className='h-5 w-5' />
+            <Home className='h-4.5 md:h-6 w-4.5 md:w-6' />
             <span className='text-xs'>Inicio</span>
           </Link>
 
@@ -145,7 +148,7 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <Flame className='h-5 w-5' />
+            <Flame className='h-4.5 md:h-6 w-4.5 md:w-6' />
             <span className='text-xs'>Catálogo</span>
           </button>
 
@@ -163,15 +166,23 @@ export function Navbar() {
             }`}
           >
             <div className='relative'>
-              <ShoppingCart className='h-5 w-5' />
+              <ShoppingCart className='h-4.5 md:h-6 w-4.5 md:w-6' />
               {cartItemCount > 0 && (
-                <span className='absolute -top-2 -right-2 bg-[#C1121F] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center'>
+                <span className='absolute -top-2 -right-2 bg-[#C1121F] text-white text-xs rounded-full h-4.5 w-4.5 flex items-center justify-center'>
                   {cartItemCount}
                 </span>
               )}
             </div>
             <span className='text-xs'>Carrito</span>
           </Link>
+
+          <button
+            onClick={() => setOpenCityDialog(true)}
+            className={`flex flex-col items-center space-y-1 cursor-pointer transition-colors ${inactiveIconClasses}`}
+          >
+            <MapPin className='h-4.5 md:h-6 w-4.5 md:w-6' />
+            <span className='text-xs'>Ciudad</span>
+          </button>
 
           <button
             onClick={() =>
@@ -183,11 +194,16 @@ export function Navbar() {
                 : inactiveIconClasses
             }`}
           >
-            <SiInstagram className='h-5 w-5' />
+            <SiInstagram className='h-4.5 md:h-6 w-4.5 md:w-6' />
             <span className='text-xs'>Social</span>
           </button>
         </div>
       </div>
+
+      <CityChangeDialog
+        open={openCityDialog}
+        onOpenChange={setOpenCityDialog}
+      />
     </nav>
   )
 }
