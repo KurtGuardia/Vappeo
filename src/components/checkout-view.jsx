@@ -210,7 +210,7 @@ export function CheckoutView({ puntos }) {
   }
 
   return (
-    <div className='px-4 space-y-6 pb-24'>
+    <div className='flex flex-col px-4 space-y-6 pb-24'>
       <h1 className='text-2xl mt-2 font-brand'>
         CONFIRMAR PEDIDO
       </h1>
@@ -275,7 +275,7 @@ export function CheckoutView({ puntos }) {
       </div>
 
       <Button
-        className='w-full bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold'
+        className='w-full md:w-fit m-auto bg-[#C1121F] hover:bg-[#91090f] text-lg font-semibold'
         onClick={() => {
           window.open(
             `https://wa.me/${

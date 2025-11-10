@@ -63,8 +63,17 @@ export function MapDelivery() {
     setLoading(false)
   }
 
-  // Initial map center
-  const mapCenter = [-17.38, -66.15]
+  const CITY_CENTERS = {
+    cochabamba: [-17.38, -66.18],
+    'santa cruz': [-17.78, -63.18],
+  }
+
+  const { selectedCity } = useStore()
+
+  const mapCenter = [
+    ...(CITY_CENTERS[selectedCity] ||
+      CITY_CENTERS.cochabamba),
+  ]
 
   return (
     <div className='h-64 rounded-lg overflow-hidden relative'>
