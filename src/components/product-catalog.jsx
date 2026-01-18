@@ -152,7 +152,7 @@ export function ProductCatalog({ productos, inventario }) {
                         stockFlag === 'AGOTADO'
                       return (
                         <Card
-                          key={inv.sabor}
+                          key={inv.img}
                           className={`relative rounded-2xl flex flex-col py-0 border-2 border-t-[16px] ${tag.borderClass}`}
                         >
                           {tag.message && (
